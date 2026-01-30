@@ -1,0 +1,22 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: prismmtr-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: prisma
+      POSTGRES_DB: prismmtr
+    ports:
+      - "5432:5432"
+    volumes:
+      - prismmtr_db:/var/lib/postgresql/data
+  redis:
+    image: redis:7-alpine
+    container_name: prismmtr-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+volumes:
+  prismmtr_db:

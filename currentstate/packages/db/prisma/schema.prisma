@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum CompanyMemberRole {
+  MEMBER
+}
+
+model User {
+  id         String   @id @default(cuid())
+  discordId  String   @unique
+  username   String
+  avatarUrl  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Связи с компаниями
+  ownedCompanies Company[]       @relation("CompanyOwner")
+  memberships    CompanyMember[]
+
+  // Связи с контентом
+  authoredProjects Project[] @relation("ProjectAuthor")
+  ownedProjects    Project[] @relation("ProjectOwner")
+  authoredPosts    Post[]    @relation("PostAuthor")
+  ownedPosts       Post[]    @relation("PostOwner")
+
+  @@index([username])
+}
+
+model Company {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?  @db.Text
+
+  // Единственный владелец компании
+  ownerUserId String
+  owner       User     @relation("CompanyOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  members  CompanyMember[]
+  projects Project[]       @relation("CompanyProjects")
+  posts    Post[]          @relation("CompanyPosts")
+
+  @@index([slug])
+  @@index([ownerUserId])
+}
+
+model CompanyMember {
+  id        String            @id @default(cuid())
+  companyId String
+  userId    String
+  role      CompanyMemberRole @default(MEMBER)
+  createdAt DateTime          @default(now())
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Один пользователь может быть участником компании только один раз
+  @@unique([companyId, userId])
+  @@index([userId])
+  @@index([companyId])
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  description String?  @db.Text
+  type        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Автор — тот, кто создал проект
+  authorId String
+  author   User   @relation("ProjectAuthor", fields: [authorId], references: [id], onDelete: Restrict)
+
+  // Владелец может быть либо пользователем, либо компанией
+  ownerUserId    String?
+  ownerUser      User?    @relation("ProjectOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
+  ownerCompanyId String?
+  ownerCompany   Company? @relation("CompanyProjects", fields: [ownerCompanyId], references: [id], onDelete: Restrict)
+
+  @@index([authorId, createdAt])
+  @@index([ownerUserId, createdAt])
+  @@index([ownerCompanyId, createdAt])
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  body      String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Автор — тот, кто создал пост
+  authorId String
+  author   User   @relation("PostAuthor", fields: [authorId], references: [id], onDelete: Restrict)
+
+  // Владелец может быть либо пользователем, либо компанией
+  ownerUserId    String?
+  ownerUser      User?    @relation("PostOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
+  ownerCompanyId String?
+  ownerCompany   Company? @relation("CompanyPosts", fields: [ownerCompanyId], references: [id], onDelete: Restrict)
+
+  @@index([authorId, createdAt])
+  @@index([ownerUserId, createdAt])
+  @@index([ownerCompanyId, createdAt])
+}

@@ -1,0 +1,24 @@
+
+> prismmtr-site@0.1.0 build
+> next build
+
+▲ Next.js 16.1.4 (Turbopack)
+- Environments: .env
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 7.0s
+  Running TypeScript ...
+Failed to compile.
+
+./app/company/[companyId]/hub/projects/CompanyProjectEditor.tsx:15:32
+Type error: Module '"@/lib/company/roles"' declares 'CompanyRole' locally, but it is not exported.
+
+[0m [90m 13 |[39m [36mimport[39m { cn } [36mfrom[39m [32m"@/lib/cn"[39m[33m;[39m
+ [90m 14 |[39m [36mimport[39m { formatDate[33m,[39m formatProjectStatus } [36mfrom[39m [32m"@/lib/dashboard/format"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 15 |[39m [36mimport[39m { isCompanyEditor[33m,[39m type [33mCompanyRole[39m } [36mfrom[39m [32m"@/lib/company/roles"[39m[33m;[39m
+ [90m    |[39m                                [31m[1m^[22m[39m
+ [90m 16 |[39m
+ [90m 17 |[39m type [33mContentStatus[39m [33m=[39m [32m"DRAFT"[39m [33m|[39m [32m"PENDING"[39m [33m|[39m [32m"APPROVED"[39m [33m|[39m [32m"REJECTED"[39m[33m;[39m
+ [90m 18 |[39m type [33mProjectStatus[39m [33m=[39m [32m"IN_PROGRESS"[39m [33m|[39m [32m"RELEASED"[39m [33m|[39m [32m"FROZEN"[39m[33m;[39m[0m
+Next.js build worker exited with code: 1 and signal: null

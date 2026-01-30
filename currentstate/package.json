@@ -1,0 +1,19 @@
+{
+  "name": "prismmtr",
+  "private": true,
+  "packageManager": "pnpm@9",
+  "scripts": {
+    "dev": "pnpm --filter @prismmtr/web dev",
+    "build": "pnpm --filter @prismmtr/web build",
+    "lint": "pnpm --filter @prismmtr/web lint",
+    "typecheck": "pnpm --filter @prismmtr/db prisma:generate && pnpm --filter @prismmtr/ui typecheck && pnpm --filter @prismmtr/web typecheck",
+    "db:generate": "pnpm --filter @prismmtr/db prisma:generate",
+    "db:migrate": "pnpm --filter @prismmtr/db prisma:migrate",
+    "db:seed": "pnpm --filter @prismmtr/db prisma:seed",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}

@@ -1,0 +1,24 @@
+
+> prismmtr-site@0.1.0 build
+> next build
+
+▲ Next.js 16.1.4 (Turbopack)
+- Environments: .env
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 7.4s
+  Running TypeScript ...
+Failed to compile.
+
+./app/api/moderation/route.ts:48:70
+Type error: Property 'where' does not exist on type '{ select?: ModerationRequestSelect<DefaultArgs> | null | undefined; omit?: ModerationRequestOmit<DefaultArgs> | null | undefined; ... 6 more ...; distinct?: ModerationRequestScalarFieldEnum | ... 1 more ... | undefined; } | undefined'.
+
+[0m [90m 46 |[39m     [33m:[39m undefined[33m;[39m
+ [90m 47 |[39m
+[31m[1m>[22m[39m[90m 48 |[39m   [36mlet[39m where[33m:[39m [33mParameters[39m[33m<[39m[36mtypeof[39m prisma[33m.[39mmoderationRequest[33m.[39mfindMany[33m>[39m[[35m0[39m][[32m"where"[39m] [33m=[39m
+ [90m    |[39m                                                                      [31m[1m^[22m[39m
+ [90m 49 |[39m     {
+ [90m 50 |[39m       status[33m,[39m
+ [90m 51 |[39m       [33m...[39m(type [33m?[39m { targetType[33m:[39m type } [33m:[39m {})[33m,[39m[0m
+Next.js build worker exited with code: 1 and signal: null

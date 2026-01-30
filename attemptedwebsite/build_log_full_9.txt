@@ -1,0 +1,30 @@
+
+> prismmtr-site@0.1.0 build
+> next build
+
+▲ Next.js 16.1.4 (Turbopack)
+- Environments: .env
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 7.6s
+  Running TypeScript ...
+Failed to compile.
+
+./app/api/tickets/inbox/route.ts:71:5
+Type error: Type '{ OR?: ({ updatedAt: { lt: Date; }; id?: undefined; } | { updatedAt: Date; id: { lt: string; }; })[] | undefined; subject?: { contains: string; mode: string; } | undefined; status?: $Enums.TicketStatus | undefined; }' is not assignable to type 'TicketWhereInput'.
+  Types of property 'subject' are incompatible.
+    Type '{ contains: string; mode: string; } | undefined' is not assignable to type 'string | StringFilter<"Ticket"> | undefined'.
+      Type '{ contains: string; mode: string; }' is not assignable to type 'string | StringFilter<"Ticket"> | undefined'.
+        Type '{ contains: string; mode: string; }' is not assignable to type 'StringFilter<"Ticket">'.
+          Types of property 'mode' are incompatible.
+            Type 'string' is not assignable to type 'QueryMode | undefined'.
+
+[0m [90m 69 |[39m
+ [90m 70 |[39m   [36mconst[39m tickets [33m=[39m [36mawait[39m prisma[33m.[39mticket[33m.[39mfindMany({
+[31m[1m>[22m[39m[90m 71 |[39m     where[33m,[39m
+ [90m    |[39m     [31m[1m^[22m[39m
+ [90m 72 |[39m     orderBy[33m:[39m [{ updatedAt[33m:[39m [32m"desc"[39m }[33m,[39m { id[33m:[39m [32m"desc"[39m }][33m,[39m
+ [90m 73 |[39m     take[33m:[39m limit [33m+[39m [35m1[39m[33m,[39m
+ [90m 74 |[39m     select[33m:[39m {[0m
+Next.js build worker exited with code: 1 and signal: null

@@ -1,0 +1,2413 @@
+<!DOCTYPE html>
+<html lang="en" class="app-shell">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PrismMTR - Dashboard</title>
+
+  <!-- Open Graph / Social Media Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PrismMTR Dashboard">
+  <meta property="og:description" content="Your central hub for managing companies, projects, and content">
+  <meta property="og:image" content="assets/img/PrismMTRlogo-optimized.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PrismMTR Dashboard">
+  <meta name="twitter:description" content="Your central hub for managing companies, projects, and content">
+  <meta name="twitter:image" content="assets/img/PrismMTRlogo-optimized.png">
+
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+
+  <!-- CRITICAL: Theme must be set BEFORE any CSS loads to prevent white flash -->
+  <script>
+    (function() {
+      try {
+        var darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (darkMode) {
+          document.documentElement.classList.add('dark-mode');
+          document.documentElement.style.colorScheme = 'dark';
+        }
+      } catch(e) {}
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/app-shell.css">
+</head>
+<body data-page="dashboard">
+  <canvas id="starCanvas"></canvas>
+
+  <!-- Sidebar Overlay (Mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Dashboard Layout: Sidebar + Main Content -->
+  <div class="dashboard-layout" id="mainContent">
+
+    <!-- Left Sidebar -->
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+      <!-- Brand -->
+      <a href="index.html" class="sidebar-brand">
+        <img src="assets/img/PrismMTRlogo-optimized.png" alt="PrismMTR" class="sidebar-brand__logo">
+        <span class="sidebar-brand__text">PrismMTR</span>
+      </a>
+
+      <!-- User Info -->
+      <div class="sidebar-user">
+        <div class="sidebar-user__avatar" id="sidebarUserAvatar">?</div>
+        <div class="sidebar-user__info">
+          <div class="sidebar-user__name" id="sidebarUserName">User</div>
+          <div class="sidebar-user__role" id="sidebarUserRole">Member</div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav__section">
+          <span class="sidebar-nav__label">Overview</span>
+          <button class="sidebar-nav__item active" data-section="home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            <span>Home</span>
+          </button>
+        </div>
+
+        <div class="sidebar-nav__section">
+          <span class="sidebar-nav__label">Content</span>
+          <a href="dashboard-companies.html" class="sidebar-nav__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 21h18"/>
+              <path d="M5 21V7l8-4v18"/>
+              <path d="M19 21V11l-6-4"/>
+            </svg>
+            <span>Companies</span>
+          </a>
+          <a href="dashboard-projects.html" class="sidebar-nav__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span>Projects</span>
+          </a>
+          <a href="dashboard-posts.html" class="sidebar-nav__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <span>Posts</span>
+          </a>
+        </div>
+
+        <div class="sidebar-nav__section">
+          <span class="sidebar-nav__label">Account</span>
+          <button class="sidebar-nav__item" data-section="settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            <span>Settings</span>
+          </button>
+        </div>
+
+        <!-- Admin Section (mod/admin only) -->
+        <div class="sidebar-nav__section sidebar-nav__section--admin" id="adminSection" style="display: none;">
+          <span class="sidebar-nav__label">Administration</span>
+          <a href="dashboard-admin.html" class="sidebar-nav__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span>Admin Panel</span>
+          </a>
+        </div>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <button class="sidebar-footer__btn" data-action="sidebar-logout">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+  <!-- Mobile Sidebar Toggle -->
+  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Sidebar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-main">
+
+      <!-- Section: Home -->
+      <section class="dashboard-section active" data-section="home">
+        <div class="section-header">
+          <h1 class="section-header__title">Welcome back!</h1>
+          <p class="section-header__subtitle">Your central hub for managing content</p>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="home-actions">
+          <div class="action-card" data-action="open-create-post">
+            <div class="action-card__icon action-card__icon--post">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </div>
+            <div class="action-card__content">
+              <h3 class="action-card__title">Create Post</h3>
+              <p class="action-card__desc">Share updates with the community</p>
+            </div>
+            <svg class="action-card__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+
+          <div class="action-card" data-action="open-create-project">
+            <div class="action-card__icon action-card__icon--project">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                <line x1="12" y1="11" x2="12" y2="17"/>
+                <line x1="9" y1="14" x2="15" y2="14"/>
+              </svg>
+            </div>
+            <div class="action-card__content">
+              <h3 class="action-card__title">Create Project</h3>
+              <p class="action-card__desc">Showcase your MTR creations</p>
+            </div>
+            <svg class="action-card__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+
+          <div class="action-card" data-action="goto-section" data-target="companies">
+            <div class="action-card__icon action-card__icon--company">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 21h18"/>
+                <path d="M5 21V7l8-4v18"/>
+                <path d="M19 21V11l-6-4"/>
+              </svg>
+            </div>
+            <div class="action-card__content">
+              <h3 class="action-card__title">Manage Companies</h3>
+              <p class="action-card__desc">Create and manage your companies</p>
+            </div>
+            <svg class="action-card__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Recent Activity Placeholder -->
+        <div class="home-recent">
+          <h2 class="home-recent__title">Recent Activity</h2>
+          <div class="home-recent__empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <p>No recent activity</p>
+            <span>Your recent posts and projects will appear here</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Companies -->
+      <section class="dashboard-section" data-section="companies">
+        <div class="section-header">
+          <div class="section-header__text">
+            <h1 class="section-header__title">Companies</h1>
+            <p class="section-header__subtitle">Manage your companies and collaborations</p>
+          </div>
+          <button class="btn btn--primary" data-action="create-company">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Create Company
+          </button>
+        </div>
+
+        <div class="companies-list" id="companiesList">
+          <div class="empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 21h18"/>
+              <path d="M5 21V7l8-4v18"/>
+              <path d="M19 21V11l-6-4"/>
+            </svg>
+            <h3>No companies yet</h3>
+            <p>Create your first company to start managing projects and team members</p>
+            <button class="btn btn--primary" data-action="create-company">Create Company</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Projects -->
+      <section class="dashboard-section" data-section="projects">
+        <div class="section-header">
+          <div class="section-header__text">
+            <h1 class="section-header__title">Projects</h1>
+            <p class="section-header__subtitle">Your projects and contributions</p>
+          </div>
+        </div>
+
+        <div class="projects-list" id="projectsList">
+          <div class="dashboard-grid dashboard-grid--projects">
+            <div class="create-tile" data-action="open-create-project">
+              <div class="create-tile__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+              </div>
+              <span class="create-tile__label">Create Project</span>
+            </div>
+            <!-- Other projects will be loaded here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Posts -->
+      <section class="dashboard-section" data-section="posts">
+        <div class="section-header">
+          <div class="section-header__text">
+            <h1 class="section-header__title">Posts</h1>
+            <p class="section-header__subtitle">Your published posts</p>
+          </div>
+        </div>
+
+        <div class="posts-list" id="postsList">
+          <div class="dashboard-grid dashboard-grid--posts">
+            <div class="create-tile" data-action="open-create-post">
+              <div class="create-tile__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+              </div>
+              <span class="create-tile__label">Create Post</span>
+            </div>
+            <!-- Other posts will be loaded here -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Settings -->
+      <section class="dashboard-section" data-section="settings">
+        <div class="section-header">
+          <h1 class="section-header__title">Settings</h1>
+          <p class="section-header__subtitle">Manage your account and preferences</p>
+        </div>
+
+        <div class="settings-grid">
+          <!-- Account Card -->
+          <div class="settings-card">
+            <h3 class="settings-card__title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              Account
+            </h3>
+            <div class="settings-card__content">
+              <div class="setting-row">
+                <div class="setting-row__info">
+                  <span class="setting-row__label">Minecraft Nickname</span>
+                  <span class="setting-row__value" id="settingMcNickname">Not set</span>
+                </div>
+                <button class="btn btn--sm btn--outline" data-action="change-nickname">Change</button>
+              </div>
+              <div class="setting-row">
+                <div class="setting-row__info">
+                  <span class="setting-row__label">Email</span>
+                  <span class="setting-row__value" id="settingEmail">-</span>
+                </div>
+              </div>
+              <div class="setting-row">
+                <div class="setting-row__info">
+                  <span class="setting-row__label">Role</span>
+                  <span class="setting-row__value" id="settingRole">User</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Appearance Card -->
+          <div class="settings-card">
+            <h3 class="settings-card__title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+              </svg>
+              Appearance
+            </h3>
+            <div class="settings-card__content">
+              <div class="setting-row">
+                <div class="setting-row__info">
+                  <span class="setting-row__label">Theme</span>
+                  <span class="setting-row__desc">Choose light or dark mode</span>
+                </div>
+                <div class="theme-toggle" id="dashboardThemeToggle">
+                  <button class="theme-toggle__btn theme-toggle__btn--light" data-theme="light">Light</button>
+                  <button class="theme-toggle__btn theme-toggle__btn--dark" data-theme="dark">Dark</button>
+                </div>
+              </div>
+              <div class="setting-row">
+                <div class="setting-row__info">
+                  <span class="setting-row__label">Star Animation</span>
+                  <span class="setting-row__desc">Background starfield effect</span>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" id="dashboardStarsToggle" checked>
+                  <span class="toggle__slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Connections Card -->
+          <div class="settings-card">
+            <h3 class="settings-card__title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+              </svg>
+              Connections
+            </h3>
+            <div class="settings-card__content">
+              <div class="setting-row">
+                <div class="setting-row__info setting-row__info--with-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor" class="icon-discord">
+                    <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286z"/>
+                  </svg>
+                  <span class="setting-row__label">Discord</span>
+                </div>
+                <span class="setting-row__status setting-row__status--connected" id="discordConnectionStatus">Connected</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Admin Panel (mod/admin only) -->
+      <section class="dashboard-section" data-section="admin">
+        <div class="section-header">
+          <h1 class="section-header__title">Admin Panel</h1>
+          <p class="section-header__subtitle">System administration and moderation</p>
+        </div>
+
+        <!-- Admin Tabs -->
+        <div class="admin-tabs">
+          <button class="admin-tabs__tab active" data-admin-tab="users">Users</button>
+          <button class="admin-tabs__tab" data-admin-tab="moderation">Moderation</button>
+          <button class="admin-tabs__tab" data-admin-tab="notifications">Notifications</button>
+        </div>
+
+        <!-- Admin Content -->
+        <div class="admin-content">
+          <!-- Users Tab -->
+          <div class="admin-panel active" data-admin-panel="users">
+            <div class="admin-toolbar">
+              <div class="search-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="M21 21l-4.35-4.35"/>
+                </svg>
+                <input type="text" class="search-box__input" id="adminUserSearch" placeholder="Search users...">
+              </div>
+            </div>
+            <div class="admin-table-wrapper">
+              <table class="admin-table admin-table--users">
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Joined</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="adminUsersTable">
+                  <tr class="admin-table__loading">
+                    <td colspan="5">
+                      <div class="loading-spinner"></div>
+                      <span>Loading users...</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Moderation Tab -->
+          <div class="admin-panel" data-admin-panel="moderation">
+            <!-- Moderation Sub-tabs -->
+            <div class="moderation-subtabs">
+              <button class="moderation-subtab active" data-subtab="entities">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="3" y1="9" x2="21" y2="9"/>
+                  <line x1="9" y1="21" x2="9" y2="9"/>
+                </svg>
+                All Entities
+              </button>
+              <button class="moderation-subtab" data-subtab="requests">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+                Requests
+                <span class="moderation-subtab__badge" id="requestsBadge">0</span>
+              </button>
+            </div>
+
+            <!-- Entities Sub-panel -->
+            <div class="moderation-subpanel active" data-subpanel="entities">
+              <div class="entity-type-tabs">
+                <button class="entity-type-tab active" data-entity-type="companies">Companies</button>
+                <button class="entity-type-tab" data-entity-type="projects">Projects</button>
+                <button class="entity-type-tab" data-entity-type="posts">Posts</button>
+              </div>
+
+              <div class="admin-toolbar">
+                <div class="search-box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="M21 21l-4.35-4.35"/>
+                  </svg>
+                  <input type="text" class="search-box__input" id="entitySearch" placeholder="Search...">
+                </div>
+              </div>
+
+              <div class="admin-table-wrapper">
+                <table class="admin-table admin-table--entities">
+                  <thead id="entityTableHead">
+                    <tr>
+                      <th>Name</th>
+                      <th>Owner</th>
+                      <th>Category</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="entityTableBody">
+                    <tr class="admin-table__loading">
+                      <td colspan="5">
+                        <div class="loading-spinner"></div>
+                        <span>Loading...</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Requests Sub-panel -->
+            <div class="moderation-subpanel" data-subpanel="requests">
+              <div class="request-type-tabs">
+                <button class="request-type-tab active" data-request-type="moderation">
+                  Content Requests
+                  <span class="request-type-tab__badge" id="contentRequestsBadge">0</span>
+                </button>
+                <button class="request-type-tab" data-request-type="nickname">
+                  Nickname Requests
+                  <span class="request-type-tab__badge" id="nicknameRequestsBadge">0</span>
+                </button>
+              </div>
+
+              <div class="admin-toolbar">
+                <div class="moderation-filters">
+                  <button class="moderation-filter active" data-filter="pending">
+                    <span class="filter-label">Pending</span>
+                    <span class="filter-count" id="moderationPendingCount">0</span>
+                  </button>
+                  <button class="moderation-filter" data-filter="approved">
+                    <span class="filter-label">Approved</span>
+                  </button>
+                  <button class="moderation-filter" data-filter="rejected">
+                    <span class="filter-label">Rejected</span>
+                  </button>
+                  <button class="moderation-filter" data-filter="all">
+                    <span class="filter-label">All</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="moderation-list" id="moderationList">
+                <div class="moderation-loading">
+                  <div class="loading-spinner"></div>
+                  <span>Loading requests...</span>
+                </div>
+              </div>
+
+              <div class="moderation-empty" id="moderationEmpty" style="display: none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M9 12l2 2 4-4"/>
+                  <circle cx="12" cy="12" r="10"/>
+                </svg>
+                <h3>No pending requests</h3>
+                <p>Content and nickname requests will appear here for review</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Permissions Tab (hidden) -->
+          <div class="admin-panel" data-admin-panel="permissions" style="display: none;"
+            <div class="permissions-layout">
+              <!-- Role Permissions Section -->
+              <div class="permissions-section">
+                <div class="permissions-section__header">
+                  <h3 class="permissions-section__title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    Role Permissions
+                  </h3>
+                  <p class="permissions-section__desc">Configure default permissions for each role</p>
+                </div>
+
+                <div class="permissions-table-wrapper">
+                  <table class="permissions-table" id="rolePermissionsTable">
+                    <thead>
+                      <tr>
+                        <th>Permission</th>
+                        <th class="permissions-table__role">
+                          <span class="role-badge role-badge--user">User</span>
+                        </th>
+                        <th class="permissions-table__role">
+                          <span class="role-badge role-badge--mod">Mod</span>
+                        </th>
+                        <th class="permissions-table__role">
+                          <span class="role-badge role-badge--admin">Admin</span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr data-permission="create_project">
+                        <td>
+                          <div class="permission-info">
+                            <span class="permission-info__name">Create Project</span>
+                            <span class="permission-info__desc">Can create new projects and objects</span>
+                          </div>
+                        </td>
+                        <td class="permissions-table__cell">
+                          <label class="toggle toggle--sm">
+                            <input type="checkbox" data-role="user" data-perm="create_project">
+                            <span class="toggle__slider"></span>
+                          </label>
+                        </td>
+                        <td class="permissions-table__cell">
+                          <label class="toggle toggle--sm">
+                            <input type="checkbox" data-role="mod" data-perm="create_project" checked>
+                            <span class="toggle__slider"></span>
+                          </label>
+                        </td>
+                        <td class="permissions-table__cell">
+                          <label class="toggle toggle--sm toggle--locked">
+                            <input type="checkbox" data-role="admin" data-perm="create_project" checked disabled>
+                            <span class="toggle__slider"></span>
+                          </label>
+                        </td>
+                      </tr>
+                      <tr data-permission="create_post">
+                        <td>
+                          <div class="permission-info">
+                            <span class="permission-info__name">Create Post</span>
+                            <span class="permission-info__desc">Can create and publish posts</span>
+                          </div>
+                        </td>
+                        <td class="permissions-table__cell">
+                          <label class="toggle toggle--sm">
+                            <input type="checkbox" data-role="user" data-perm="create_post">
+                            <span class="toggle__slider"></span>
+                          </label>
+                        </td>
+                        <td class="permissions-table__cell">
+                          <label class="toggle toggle--sm">
+                            <input type="checkbox" data-role="mod" data-perm="create_post" checked>
+                            <span class="toggle__slider"></span>
+                          </label>
+                        </td>
+                        <td class="permissions-table__cell">
+                          <label class="toggle toggle--sm toggle--locked">
+                            <input type="checkbox" data-role="admin" data-perm="create_post" checked disabled>
+                            <span class="toggle__slider"></span>
+                          </label>
+                        </td>
+                      </tr>
+                      <tr data-permission="trusted_member">
+                        <td>
+                          <div class="permission-info">
+                            <span class="permission-info__name">Trusted Member</span>
+                            <span class="permission-info__desc">Bypass moderation for content</span>
+                          </div>
+                        </td>
+                        <td class="permissions-table__cell">
+                          <label class="toggle toggle--sm">
+                            <input type="checkbox" data-role="user" data-perm="trusted_member">
+                            <span class="toggle__slider"></span>
+                          </label>
+                        </td>
+                        <td class="permissions-table__cell">
+                          <label class="toggle toggle--sm">
+                            <input type="checkbox" data-role="mod" data-perm="trusted_member" checked>
+                            <span class="toggle__slider"></span>
+                          </label>
+                        </td>
+                        <td class="permissions-table__cell">
+                          <label class="toggle toggle--sm toggle--locked">
+                            <input type="checkbox" data-role="admin" data-perm="trusted_member" checked disabled>
+                            <span class="toggle__slider"></span>
+                          </label>
+                        </td>
+                      </tr>
+                      <tr data-permission="admin_access">
+                        <td>
+                          <div class="permission-info">
+                            <span class="permission-info__name">Admin Access</span>
+                            <span class="permission-info__desc">Access admin panel and tools</span>
+                          </div>
+                        </td>
+                        <td class="permissions-table__cell">
+                          <label class="toggle toggle--sm">
+                            <input type="checkbox" data-role="user" data-perm="admin_access">
+                            <span class="toggle__slider"></span>
+                          </label>
+                        </td>
+                        <td class="permissions-table__cell">
+                          <label class="toggle toggle--sm">
+                            <input type="checkbox" data-role="mod" data-perm="admin_access" checked>
+                            <span class="toggle__slider"></span>
+                          </label>
+                        </td>
+                        <td class="permissions-table__cell">
+                          <label class="toggle toggle--sm toggle--locked">
+                            <input type="checkbox" data-role="admin" data-perm="admin_access" checked disabled>
+                            <span class="toggle__slider"></span>
+                          </label>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="permissions-actions">
+                  <button class="btn btn--primary btn--sm" id="saveRolePermissionsBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                      <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                      <polyline points="17 21 17 13 7 13 7 21"/>
+                      <polyline points="7 3 7 8 15 8"/>
+                    </svg>
+                    Save Changes
+                  </button>
+                  <button class="btn btn--ghost btn--sm" id="resetRolePermissionsBtn">Reset to Defaults</button>
+                </div>
+              </div>
+
+              <!-- User Overrides Section -->
+              <div class="permissions-section">
+                <div class="permissions-section__header">
+                  <h3 class="permissions-section__title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    User Permission Overrides
+                  </h3>
+                  <p class="permissions-section__desc">Set custom permissions for individual users that override role defaults</p>
+                </div>
+
+                <!-- User Search -->
+                <div class="user-override-search">
+                  <div class="search-box search-box--full">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="11" cy="11" r="8"/>
+                      <path d="M21 21l-4.35-4.35"/>
+                    </svg>
+                    <input type="text" class="search-box__input" id="userOverrideSearch" placeholder="Search users by name or email...">
+                  </div>
+                </div>
+
+                <!-- Selected User Panel (hidden initially) -->
+                <div class="user-override-panel" id="userOverridePanel" style="display: none;">
+                  <div class="user-override-panel__header">
+                    <div class="user-override-panel__user">
+                      <div class="user-override-panel__avatar" id="overrideUserAvatar">?</div>
+                      <div class="user-override-panel__info">
+                        <span class="user-override-panel__name" id="overrideUserName">User Name</span>
+                        <span class="user-override-panel__role" id="overrideUserRole">
+                          <span class="role-badge role-badge--user">User</span>
+                        </span>
+                      </div>
+                    </div>
+                    <button class="btn btn--ghost btn--sm" id="closeUserOverrideBtn">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                      </svg>
+                      Close
+                    </button>
+                  </div>
+
+                  <div class="user-override-panel__content">
+                    <div class="override-list" id="userOverrideList">
+                      <!-- Override items will be generated by JS -->
+                    </div>
+
+                    <div class="user-override-panel__actions">
+                      <button class="btn btn--primary btn--sm" id="saveUserOverridesBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        Save Overrides
+                      </button>
+                      <button class="btn btn--danger btn--sm btn--outline" id="clearUserOverridesBtn">Clear All Overrides</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- User Search Results -->
+                <div class="user-override-results" id="userOverrideResults">
+                  <div class="empty-state empty-state--compact">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <circle cx="11" cy="11" r="8"/>
+                      <path d="M21 21l-4.35-4.35"/>
+                    </svg>
+                    <p>Search for a user to manage their permission overrides</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notifications Tab -->
+          <div class="admin-panel" data-admin-panel="notifications">
+            <div class="admin-notifications-layout">
+              <div class="admin-notifications-form">
+                <h3 class="admin-form-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                  </svg>
+                  Send Notification
+                </h3>
+                <p class="admin-form-desc">Send notifications to users, companies, or specific groups</p>
+                
+                <form id="adminNotificationForm" class="admin-form">
+                  <div class="form-group">
+                    <label class="form-label">Title *</label>
+                    <input type="text" id="notifTitle" class="form-input" placeholder="Notification title" required maxlength="100">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="form-label">Message *</label>
+                    <textarea id="notifMessage" class="form-textarea" placeholder="Notification message..." rows="4" required maxlength="500"></textarea>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="form-label">Recipients *</label>
+                    <select id="notifTargets" class="form-select">
+                      <option value="">Select recipients...</option>
+                      <option value="all_users">All Users</option>
+                      <option value="all_companies">All Company Owners</option>
+                      <option value="selected">Selected Users</option>
+                    </select>
+                  </div>
+                  
+                  <!-- User selection (shown when "selected" is chosen) -->
+                  <div class="form-group" id="notifUserSelectGroup" style="display: none;">
+                    <label class="form-label">Select Users</label>
+                    <div class="user-select-search">
+                      <input type="text" id="notifUserSearch" class="form-input" placeholder="Search users...">
+                    </div>
+                    <div class="selected-users-list" id="notifSelectedUsers">
+                      <!-- Selected users will appear here -->
+                    </div>
+                    <div class="user-search-results" id="notifUserSearchResults">
+                      <!-- Search results will appear here -->
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="form-label">Type</label>
+                    <select id="notifType" class="form-select">
+                      <option value="admin_broadcast">Announcement</option>
+                      <option value="system">System Notice</option>
+                      <option value="update">Update</option>
+                      <option value="warning">Warning</option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn--primary" id="sendNotifBtn">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                      </svg>
+                      Send Notification
+                    </button>
+                  </div>
+                </form>
+              </div>
+              
+              <div class="admin-notifications-info">
+                <div class="info-card">
+                  <h4>Notification Guidelines</h4>
+                  <ul>
+                    <li>Use announcements for important updates</li>
+                    <li>System notices for maintenance or changes</li>
+                    <li>Warnings for urgent matters</li>
+                    <li>Keep messages clear and concise</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Create Post Modal -->
+  <div class="modal" id="createPostModal">
+    <div class="modal__backdrop" data-action="close-post-modal" aria-hidden="true"></div>
+    <div class="modal__container modal__container--xl">
+      <button class="modal__close" data-action="close-post-modal" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="creation-wizard" id="postWizard">
+        <!-- Progress Steps -->
+        <div class="wizard-progress">
+          <div class="wizard-progress__step active" data-step="1">
+            <div class="wizard-progress__number">1</div>
+            <span class="wizard-progress__label">Category</span>
+          </div>
+          <div class="wizard-progress__line"></div>
+          <div class="wizard-progress__step" data-step="2">
+            <div class="wizard-progress__number">2</div>
+            <span class="wizard-progress__label">Content</span>
+          </div>
+          <div class="wizard-progress__line"></div>
+          <div class="wizard-progress__step" data-step="3">
+            <div class="wizard-progress__number">3</div>
+            <span class="wizard-progress__label">Preview</span>
+          </div>
+        </div>
+
+        <form id="createPostForm">
+          <!-- Step 1: Category Selection -->
+          <div class="wizard-step active" data-wizard-step="1">
+            <div class="wizard-step__header">
+              <h2 class="wizard-step__title">What type of post?</h2>
+              <p class="wizard-step__subtitle">Choose a category that best fits your content</p>
+            </div>
+
+            <div class="category-grid" id="postCategoryGrid">
+              <label class="category-card">
+                <input type="radio" name="postCategory" value="news" required>
+                <div class="category-card__content">
+                  <div class="category-card__icon category-card__icon--news">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/>
+                    </svg>
+                  </div>
+                  <h3 class="category-card__title">News</h3>
+                  <p class="category-card__desc">Share latest news and happenings</p>
+                </div>
+              </label>
+
+              <label class="category-card">
+                <input type="radio" name="postCategory" value="update">
+                <div class="category-card__content">
+                  <div class="category-card__icon category-card__icon--update">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M23 4v6h-6"/>
+                      <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                    </svg>
+                  </div>
+                  <h3 class="category-card__title">Update</h3>
+                  <p class="category-card__desc">Project progress and changes</p>
+                </div>
+              </label>
+
+              <label class="category-card">
+                <input type="radio" name="postCategory" value="announcement">
+                <div class="category-card__content">
+                  <div class="category-card__icon category-card__icon--announcement">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                  </div>
+                  <h3 class="category-card__title">Announcement</h3>
+                  <p class="category-card__desc">Important announcements</p>
+                </div>
+              </label>
+
+              <label class="category-card">
+                <input type="radio" name="postCategory" value="guide">
+                <div class="category-card__content">
+                  <div class="category-card__icon category-card__icon--guide">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                  </div>
+                  <h3 class="category-card__title">Guide</h3>
+                  <p class="category-card__desc">Tutorials and how-to guides</p>
+                </div>
+              </label>
+
+              <label class="category-card">
+                <input type="radio" name="postCategory" value="showcase">
+                <div class="category-card__content">
+                  <div class="category-card__icon category-card__icon--showcase">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                  </div>
+                  <h3 class="category-card__title">Showcase</h3>
+                  <p class="category-card__desc">Show off your creations</p>
+                </div>
+              </label>
+            </div>
+
+            <div class="wizard-actions">
+              <button type="button" class="btn btn--ghost" data-action="close-post-modal">Cancel</button>
+              <button type="button" class="btn btn--primary" data-action="post-wizard-next" disabled id="postStep1Next">
+                Continue
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Content -->
+          <div class="wizard-step" data-wizard-step="2">
+            <div class="wizard-step__header">
+              <h2 class="wizard-step__title">Write your post</h2>
+              <p class="wizard-step__subtitle">Create engaging content for your readers</p>
+            </div>
+
+            <div class="wizard-form">
+              <div class="form-group">
+                <label class="form-label" for="postTitle">
+                  Title
+                  <span class="form-label__counter"><span id="postTitleCount">0</span>/100</span>
+                </label>
+                <input type="text" class="form-input form-input--lg" id="postTitle" placeholder="Enter a catchy title..." required maxlength="100">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="postContent">
+                  Content
+                  <span class="form-label__counter"><span id="postContentCount">0</span>/5000</span>
+                </label>
+                <div class="editor-toolbar">
+                  <button type="button" class="editor-btn" data-format="bold" title="Bold">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                      <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/>
+                      <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/>
+                    </svg>
+                  </button>
+                  <button type="button" class="editor-btn" data-format="italic" title="Italic">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                      <line x1="19" y1="4" x2="10" y2="4"/>
+                      <line x1="14" y1="20" x2="5" y2="20"/>
+                      <line x1="15" y1="4" x2="9" y2="20"/>
+                    </svg>
+                  </button>
+                  <button type="button" class="editor-btn" data-format="link" title="Add Link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                    </svg>
+                  </button>
+                  <div class="editor-toolbar__separator"></div>
+                  <button type="button" class="editor-btn" data-format="list" title="Bullet List">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                      <line x1="8" y1="6" x2="21" y2="6"/>
+                      <line x1="8" y1="12" x2="21" y2="12"/>
+                      <line x1="8" y1="18" x2="21" y2="18"/>
+                      <circle cx="4" cy="6" r="1" fill="currentColor"/>
+                      <circle cx="4" cy="12" r="1" fill="currentColor"/>
+                      <circle cx="4" cy="18" r="1" fill="currentColor"/>
+                    </svg>
+                  </button>
+                </div>
+                <textarea class="form-textarea form-textarea--editor" id="postContent" placeholder="Write your post content here..." required minlength="20" maxlength="5000" rows="10"></textarea>
+                <span class="form-hint">Minimum 20 characters. Use Markdown for formatting.</span>
+              </div>
+
+              <!-- Posting As Selector -->
+              <div class="form-group" id="postAuthorGroup" style="margin-top: 1rem;">
+                <label class="form-label" for="postAuthorSelect">
+                  Posting as
+                </label>
+                <select class="form-select" id="postAuthorSelect">
+                  <option value="personal">Myself (Personal)</option>
+                  <!-- Company options will be populated dynamically -->
+                </select>
+                <span class="form-hint">Choose whether to post as yourself or as a company you manage</span>
+              </div>
+            </div>
+
+            <div class="wizard-actions">
+              <button type="button" class="btn btn--ghost" data-action="post-wizard-back">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polyline points="15 18 9 12 15 6"/>
+                </svg>
+                Back
+              </button>
+              <button type="button" class="btn btn--primary" data-action="post-wizard-next" id="postStep2Next">
+                Preview
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3: Preview -->
+          <div class="wizard-step" data-wizard-step="3">
+            <div class="wizard-step__header">
+              <h2 class="wizard-step__title">Review your post</h2>
+              <p class="wizard-step__subtitle">Make sure everything looks good before publishing</p>
+            </div>
+
+            <div class="post-preview">
+              <div class="post-preview__card">
+                <div class="post-preview__badge" id="postPreviewCategory">News</div>
+                <h3 class="post-preview__title" id="postPreviewTitle">Post Title</h3>
+                <div class="post-preview__meta">
+                  <img class="post-preview__avatar" id="postPreviewAvatar" src="" alt="">
+                  <span class="post-preview__author" id="postPreviewAuthor">Author</span>
+                  <span class="post-preview__date">Just now</span>
+                </div>
+                <div class="post-preview__content" id="postPreviewContent">
+                  Post content will appear here...
+                </div>
+              </div>
+
+              <!-- Moderation Notice -->
+              <div class="moderation-notice" id="postModerationNotice" style="display: none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <div class="moderation-notice__content">
+                  <h4>Moderation Required</h4>
+                  <p>Your post will be reviewed by moderators before being published. This usually takes a few hours.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="wizard-actions">
+              <button type="button" class="btn btn--ghost" data-action="post-wizard-back">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polyline points="15 18 9 12 15 6"/>
+                </svg>
+                Edit
+              </button>
+              <button type="submit" class="btn btn--primary btn--lg" id="submitPostBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <line x1="22" y1="2" x2="11" y2="13"/>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+                <span id="postSubmitText">Publish Post</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Project Modal -->
+  <div class="modal" id="createProjectModal">
+    <div class="modal__backdrop" data-action="close-project-modal" aria-hidden="true"></div>
+    <div class="modal__container modal__container--xl">
+      <button class="modal__close" data-action="close-project-modal" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="creation-wizard" id="projectWizard">
+        <!-- Progress Steps -->
+        <div class="wizard-progress">
+          <div class="wizard-progress__step active" data-step="1">
+            <div class="wizard-progress__number">1</div>
+            <span class="wizard-progress__label">Type</span>
+          </div>
+          <div class="wizard-progress__line"></div>
+          <div class="wizard-progress__step" data-step="2">
+            <div class="wizard-progress__number">2</div>
+            <span class="wizard-progress__label">Details</span>
+          </div>
+          <div class="wizard-progress__line"></div>
+          <div class="wizard-progress__step" data-step="3">
+            <div class="wizard-progress__number">3</div>
+            <span class="wizard-progress__label">Team</span>
+          </div>
+          <div class="wizard-progress__line"></div>
+          <div class="wizard-progress__step" data-step="4">
+            <div class="wizard-progress__number">4</div>
+            <span class="wizard-progress__label">Preview</span>
+          </div>
+        </div>
+
+        <form id="createProjectForm">
+          <!-- Step 1: Category Selection -->
+          <div class="wizard-step active" data-wizard-step="1">
+            <div class="wizard-step__header">
+              <h2 class="wizard-step__title">What are you building?</h2>
+              <p class="wizard-step__subtitle">Choose the type of project you want to create</p>
+            </div>
+
+            <div class="category-grid category-grid--2x2" id="projectCategoryGrid">
+              <label class="category-card category-card--large">
+                <input type="radio" name="projectCategory" value="building" required>
+                <div class="category-card__content">
+                  <div class="category-card__icon category-card__icon--building">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M3 21h18"/>
+                      <path d="M5 21V7l8-4v18"/>
+                      <path d="M19 21V11l-6-4"/>
+                      <path d="M9 9h1"/>
+                      <path d="M9 13h1"/>
+                      <path d="M9 17h1"/>
+                    </svg>
+                  </div>
+                  <h3 class="category-card__title">Building</h3>
+                  <p class="category-card__desc">Standalone structures like depots, offices, or facilities</p>
+                </div>
+              </label>
+
+              <label class="category-card category-card--large">
+                <input type="radio" name="projectCategory" value="station">
+                <div class="category-card__content">
+                  <div class="category-card__icon category-card__icon--station">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <circle cx="12" cy="12" r="10"/>
+                      <circle cx="12" cy="12" r="3"/>
+                      <path d="M12 2v4"/>
+                      <path d="M12 18v4"/>
+                      <path d="M2 12h4"/>
+                      <path d="M18 12h4"/>
+                    </svg>
+                  </div>
+                  <h3 class="category-card__title">Station</h3>
+                  <p class="category-card__desc">Metro stations with platforms and facilities</p>
+                </div>
+              </label>
+
+              <label class="category-card category-card--large">
+                <input type="radio" name="projectCategory" value="line_section">
+                <div class="category-card__content">
+                  <div class="category-card__icon category-card__icon--section">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M4 12h16"/>
+                      <circle cx="6" cy="12" r="2"/>
+                      <circle cx="18" cy="12" r="2"/>
+                      <path d="M8 12h8"/>
+                    </svg>
+                  </div>
+                  <h3 class="category-card__title">Line Section</h3>
+                  <p class="category-card__desc">A portion of track between stations</p>
+                </div>
+              </label>
+
+              <label class="category-card category-card--large">
+                <input type="radio" name="projectCategory" value="line">
+                <div class="category-card__content">
+                  <div class="category-card__icon category-card__icon--line">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+                      <line x1="4" y1="22" x2="4" y2="15"/>
+                    </svg>
+                  </div>
+                  <h3 class="category-card__title">Line / Extension</h3>
+                  <p class="category-card__desc">Complete metro lines or extensions</p>
+                </div>
+              </label>
+            </div>
+
+            <div class="wizard-actions">
+              <button type="button" class="btn btn--ghost" data-action="close-project-modal">Cancel</button>
+              <button type="button" class="btn btn--primary" data-action="project-wizard-next" disabled id="projectStep1Next">
+                Continue
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Project Details -->
+          <div class="wizard-step" data-wizard-step="2">
+            <div class="wizard-step__header">
+              <h2 class="wizard-step__title">Project details</h2>
+              <p class="wizard-step__subtitle">Tell us about your creation</p>
+            </div>
+
+            <div class="wizard-form wizard-form--split">
+              <div class="wizard-form__left">
+                <div class="form-group">
+                  <label class="form-label">Cover Image <span class="form-hint">(optional)</span></label>
+                  <div class="image-upload image-upload--large" id="projectImageUpload">
+                    <input type="file" id="projectImageInput" accept="image/*" hidden>
+                    <div class="image-upload__placeholder" id="projectImagePlaceholder">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                      </svg>
+                      <span>Click to upload</span>
+                      <span class="image-upload__hint">Max 2MB, JPG or PNG</span>
+                    </div>
+                    <img class="image-upload__preview" id="projectImagePreview" style="display: none;" alt="Preview">
+                    <button type="button" class="image-upload__remove" id="projectImageRemove" style="display: none;">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="wizard-form__right">
+                <div class="form-group">
+                  <label class="form-label" for="projectName">
+                    Project Name
+                    <span class="form-label__counter"><span id="projectNameCount">0</span>/50</span>
+                  </label>
+                  <input type="text" class="form-input form-input--lg" id="projectName" placeholder="My Awesome Build" required maxlength="50">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="projectDescription">
+                    Description
+                    <span class="form-label__counter"><span id="projectDescCount">0</span>/500</span>
+                  </label>
+                  <textarea class="form-textarea" id="projectDescription" placeholder="Tell us about your project..." required minlength="20" maxlength="500" rows="4"></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="projectStatus">Status</label>
+                  <div class="status-selector">
+                    <label class="status-option">
+                      <input type="radio" name="projectStatus" value="planning">
+                      <span class="status-option__badge status-option__badge--planning">Planning</span>
+                    </label>
+                    <label class="status-option">
+                      <input type="radio" name="projectStatus" value="active" checked>
+                      <span class="status-option__badge status-option__badge--active">Active</span>
+                    </label>
+                    <label class="status-option">
+                      <input type="radio" name="projectStatus" value="completed">
+                      <span class="status-option__badge status-option__badge--completed">Completed</span>
+                    </label>
+                    <label class="status-option">
+                      <input type="radio" name="projectStatus" value="paused">
+                      <span class="status-option__badge status-option__badge--paused">Paused</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Creating As Selector -->
+                <div class="form-group" id="projectAuthorGroup" style="margin-top: 1rem;">
+                  <label class="form-label" for="projectAuthorSelect">
+                    Creating as
+                  </label>
+                  <select class="form-select" id="projectAuthorSelect">
+                    <option value="personal">Myself (Personal)</option>
+                    <!-- Company options will be populated dynamically -->
+                  </select>
+                  <span class="form-hint">Choose whether to create as yourself or as a company you manage</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="wizard-actions">
+              <button type="button" class="btn btn--ghost" data-action="project-wizard-back">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polyline points="15 18 9 12 15 6"/>
+                </svg>
+                Back
+              </button>
+              <button type="button" class="btn btn--primary" data-action="project-wizard-next" id="projectStep2Next">
+                Continue
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3: Team Members -->
+          <div class="wizard-step" data-wizard-step="3">
+            <div class="wizard-step__header">
+              <h2 class="wizard-step__title">Add team members</h2>
+              <p class="wizard-step__subtitle">Invite others to collaborate on your project (optional)</p>
+            </div>
+
+            <div class="wizard-form">
+              <div class="team-section">
+                <div class="team-section__header">
+                  <div class="team-section__icon team-section__icon--owner">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="team-section__title">Co-owners</h3>
+                    <p class="team-section__desc">Have full control over the project</p>
+                  </div>
+                </div>
+                <div class="team-members" id="projectCoownersList">
+                  <div class="team-members__empty" id="projectCoownersEmpty">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24">
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                      <line x1="19" y1="8" x2="19" y2="14"/>
+                      <line x1="22" y1="11" x2="16" y2="11"/>
+                    </svg>
+                    <span>No co-owners added yet</span>
+                  </div>
+                </div>
+                <div class="team-add">
+                  <input type="text" class="form-input" id="projectCoownerInput" placeholder="Enter username...">
+                  <button type="button" class="btn btn--outline" id="addProjectCoownerBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                      <line x1="12" y1="5" x2="12" y2="19"/>
+                      <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    Add
+                  </button>
+                </div>
+              </div>
+
+              <div class="team-section">
+                <div class="team-section__header">
+                  <div class="team-section__icon team-section__icon--member">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 class="team-section__title">Members</h3>
+                    <p class="team-section__desc">Can contribute to the project</p>
+                  </div>
+                </div>
+                <div class="team-members" id="projectMembersList">
+                  <div class="team-members__empty" id="projectMembersEmpty">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24">
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                      <line x1="19" y1="8" x2="19" y2="14"/>
+                      <line x1="22" y1="11" x2="16" y2="11"/>
+                    </svg>
+                    <span>No members added yet</span>
+                  </div>
+                </div>
+                <div class="team-add">
+                  <input type="text" class="form-input" id="projectMemberInput" placeholder="Enter username...">
+                  <button type="button" class="btn btn--outline" id="addProjectMemberBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                      <line x1="12" y1="5" x2="12" y2="19"/>
+                      <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="wizard-actions">
+              <button type="button" class="btn btn--ghost" data-action="project-wizard-back">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polyline points="15 18 9 12 15 6"/>
+                </svg>
+                Back
+              </button>
+              <button type="button" class="btn btn--primary" data-action="project-wizard-next" id="projectStep3Next">
+                Preview
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 4: Preview -->
+          <div class="wizard-step" data-wizard-step="4">
+            <div class="wizard-step__header">
+              <h2 class="wizard-step__title">Review your project</h2>
+              <p class="wizard-step__subtitle">Make sure everything looks good before creating</p>
+            </div>
+
+            <div class="project-preview">
+              <div class="project-preview__card">
+                <div class="project-preview__image" id="projectPreviewImage">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                  </svg>
+                </div>
+                <div class="project-preview__body">
+                  <div class="project-preview__badges">
+                    <span class="project-preview__category" id="projectPreviewCategory">Building</span>
+                    <span class="project-preview__status" id="projectPreviewStatus">Active</span>
+                  </div>
+                  <h3 class="project-preview__title" id="projectPreviewTitle">Project Name</h3>
+                  <p class="project-preview__desc" id="projectPreviewDesc">Project description will appear here...</p>
+                  <div class="project-preview__team" id="projectPreviewTeam">
+                    <span class="project-preview__owner" id="projectPreviewOwner">Owner</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Moderation Notice -->
+              <div class="moderation-notice" id="projectModerationNotice" style="display: none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <div class="moderation-notice__content">
+                  <h4>Moderation Required</h4>
+                  <p>Your project will be reviewed by moderators before being published. This usually takes a few hours.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="wizard-actions">
+              <button type="button" class="btn btn--ghost" data-action="project-wizard-back">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polyline points="15 18 9 12 15 6"/>
+                </svg>
+                Edit
+              </button>
+              <button type="submit" class="btn btn--primary btn--lg" id="submitProjectBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span id="projectSubmitText">Create Project</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Company Modal -->
+  <div class="modal" id="createCompanyModal">
+    <div class="modal__backdrop" data-action="close-company-modal" aria-hidden="true"></div>
+    <div class="modal__container modal__container--xl">
+      <button class="modal__close" data-action="close-company-modal" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="creation-wizard" id="companyWizard">
+        <!-- Progress Steps -->
+        <div class="wizard-progress">
+          <div class="wizard-progress__step active" data-step="1">
+            <div class="wizard-progress__number">1</div>
+            <span class="wizard-progress__label">Category</span>
+          </div>
+          <div class="wizard-progress__line"></div>
+          <div class="wizard-progress__step" data-step="2">
+            <div class="wizard-progress__number">2</div>
+            <span class="wizard-progress__label">Details</span>
+          </div>
+          <div class="wizard-progress__line"></div>
+          <div class="wizard-progress__step" data-step="3">
+            <div class="wizard-progress__number">3</div>
+            <span class="wizard-progress__label">Preview</span>
+          </div>
+        </div>
+
+        <form id="createCompanyForm">
+          <!-- Step 1: Category Selection -->
+          <div class="wizard-step active" data-wizard-step="1">
+            <div class="wizard-step__header">
+              <h2 class="wizard-step__title">What does your company focus on?</h2>
+              <p class="wizard-step__subtitle">Select up to 3 categories for your company</p>
+            </div>
+
+            <div class="category-grid category-grid--2x3" id="companyCategoryGrid">
+              <label class="category-card category-card--large category-card--checkbox">
+                <input type="checkbox" name="companyCategories" value="metro">
+                <div class="category-card__content">
+                  <div class="category-card__icon category-card__icon--metro">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M8 12h8"/>
+                      <path d="M12 8v8"/>
+                    </svg>
+                  </div>
+                  <h3 class="category-card__title">Metro / Transit</h3>
+                  <p class="category-card__desc">Subway and urban transit systems</p>
+                  <span class="category-card__check">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </span>
+                </div>
+              </label>
+
+              <label class="category-card category-card--large category-card--checkbox">
+                <input type="checkbox" name="companyCategories" value="rail">
+                <div class="category-card__content">
+                  <div class="category-card__icon category-card__icon--rail">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M4 12h16"/>
+                      <circle cx="6" cy="12" r="2"/>
+                      <circle cx="18" cy="12" r="2"/>
+                    </svg>
+                  </div>
+                  <h3 class="category-card__title">Railway</h3>
+                  <p class="category-card__desc">Trains and rail infrastructure</p>
+                  <span class="category-card__check">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </span>
+                </div>
+              </label>
+
+              <label class="category-card category-card--large category-card--checkbox">
+                <input type="checkbox" name="companyCategories" value="city">
+                <div class="category-card__content">
+                  <div class="category-card__icon category-card__icon--city">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M3 21h18"/>
+                      <path d="M5 21V7l8-4v18"/>
+                      <path d="M19 21V11l-6-4"/>
+                    </svg>
+                  </div>
+                  <h3 class="category-card__title">City Building</h3>
+                  <p class="category-card__desc">Urban development and architecture</p>
+                  <span class="category-card__check">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </span>
+                </div>
+              </label>
+
+              <label class="category-card category-card--large category-card--checkbox">
+                <input type="checkbox" name="companyCategories" value="infrastructure">
+                <div class="category-card__content">
+                  <div class="category-card__icon category-card__icon--infrastructure">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M4 6h16"/>
+                      <path d="M4 10h16"/>
+                      <path d="M4 14h16"/>
+                      <path d="M4 18h16"/>
+                    </svg>
+                  </div>
+                  <h3 class="category-card__title">Infrastructure</h3>
+                  <p class="category-card__desc">Roads, bridges, and utilities</p>
+                  <span class="category-card__check">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </span>
+                </div>
+              </label>
+
+              <label class="category-card category-card--large category-card--checkbox">
+                <input type="checkbox" name="companyCategories" value="creative">
+                <div class="category-card__content">
+                  <div class="category-card__icon category-card__icon--creative">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  </div>
+                  <h3 class="category-card__title">Creative / Other</h3>
+                  <p class="category-card__desc">Art, designs, and more</p>
+                  <span class="category-card__check">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </span>
+                </div>
+              </label>
+            </div>
+            <span class="form-hint" id="categorySelectionHint">Select 1-3 categories</span>
+
+            <div class="wizard-actions">
+              <button type="button" class="btn btn--ghost" data-action="close-company-modal">Cancel</button>
+              <button type="button" class="btn btn--primary" data-action="company-wizard-next" disabled id="companyStep1Next">
+                Continue
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Company Details -->
+          <div class="wizard-step" data-wizard-step="2">
+            <div class="wizard-step__header">
+              <h2 class="wizard-step__title">Company details</h2>
+              <p class="wizard-step__subtitle">Tell us about your company</p>
+            </div>
+
+            <div class="wizard-form wizard-form--split">
+              <div class="wizard-form__left">
+                <div class="form-group">
+                  <label class="form-label">Company Logo <span class="form-hint">(optional)</span></label>
+                  <div class="image-upload image-upload--large" id="companyLogoUpload">
+                    <input type="file" id="companyLogoInput" accept="image/*" hidden>
+                    <div class="image-upload__placeholder" id="companyLogoPlaceholder">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                      </svg>
+                      <span>Click to upload</span>
+                      <span class="image-upload__hint">Max 2MB, JPG or PNG</span>
+                    </div>
+                    <img class="image-upload__preview" id="companyLogoPreview" style="display: none;" alt="Preview">
+                    <button type="button" class="image-upload__remove" id="companyLogoRemove" style="display: none;">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="wizard-form__right">
+                <div class="form-group">
+                  <label class="form-label" for="companyName">
+                    Company Name
+                    <span class="form-label__counter"><span id="companyNameCount">0</span>/50</span>
+                  </label>
+                  <input type="text" class="form-input form-input--lg" id="companyName" placeholder="My Awesome Company" required maxlength="50">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="companyDescription">
+                    Description
+                    <span class="form-label__counter"><span id="companyDescCount">0</span>/500</span>
+                  </label>
+                  <textarea class="form-textarea" id="companyDescription" placeholder="Describe what your company does, what projects you work on..." maxlength="500" rows="4"></textarea>
+                  <span class="form-hint">Optional but recommended</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="wizard-actions">
+              <button type="button" class="btn btn--ghost" data-action="company-wizard-back">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polyline points="15 18 9 12 15 6"/>
+                </svg>
+                Back
+              </button>
+              <button type="button" class="btn btn--primary" data-action="company-wizard-next" id="companyStep2Next">
+                Preview
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3: Preview -->
+          <div class="wizard-step" data-wizard-step="3">
+            <div class="wizard-step__header">
+              <h2 class="wizard-step__title">Review your company</h2>
+              <p class="wizard-step__subtitle">Make sure everything looks good before creating</p>
+            </div>
+
+            <div class="project-preview">
+              <div class="project-preview__card">
+                <div class="project-preview__image" id="companyPreviewLogo">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <path d="M3 21h18"/>
+                    <path d="M5 21V7l8-4v18"/>
+                    <path d="M19 21V11l-6-4"/>
+                  </svg>
+                </div>
+                <div class="project-preview__body">
+                  <div class="project-preview__badges">
+                    <span class="project-preview__category" id="companyPreviewCategories">Metro / Transit</span>
+                  </div>
+                  <h3 class="project-preview__title" id="companyPreviewName">Company Name</h3>
+                  <p class="project-preview__desc" id="companyPreviewDesc">Company description will appear here...</p>
+                  <div class="project-preview__team">
+                    <span class="project-preview__owner" id="companyPreviewOwner">Owner: You</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="wizard-actions">
+              <button type="button" class="btn btn--ghost" data-action="company-wizard-back">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polyline points="15 18 9 12 15 6"/>
+                </svg>
+                Edit
+              </button>
+              <button type="submit" class="btn btn--primary btn--lg" id="submitCompanyBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+                <span id="companySubmitText">Create Company</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Invite Member Modal -->
+  <div class="modal" id="inviteMemberModal">
+    <div class="modal__backdrop" data-action="close-invite-modal" aria-hidden="true"></div>
+    <div class="modal__container">
+      <button class="modal__close" data-action="close-invite-modal" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="create-wizard">
+        <div class="create-wizard__header">
+          <div class="create-wizard__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="8.5" cy="7" r="4"/>
+              <line x1="20" y1="8" x2="20" y2="14"/>
+              <line x1="23" y1="11" x2="17" y2="11"/>
+            </svg>
+          </div>
+          <h2 class="create-wizard__title">Invite Member</h2>
+          <p class="create-wizard__subtitle" id="inviteModalCompanyName">Invite a user to your company</p>
+        </div>
+
+        <form class="create-wizard__form" id="inviteMemberForm">
+          <input type="hidden" id="inviteCompanyId">
+
+          <div class="form-group">
+            <label class="form-label" for="inviteUsername">Username</label>
+            <input type="text" class="form-input" id="inviteUsername" placeholder="Enter username..." required>
+            <span class="form-hint">Enter the Minecraft nickname or account name</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="inviteRole">Role</label>
+            <select class="form-select" id="inviteRole" required>
+              <option value="member">Member</option>
+              <option value="admin">Admin (Co-owner)</option>
+            </select>
+            <span class="form-hint">Admins can manage members and company settings</span>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--ghost" data-action="close-invite-modal">Cancel</button>
+            <button type="submit" class="btn btn--primary" id="submitInviteBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+              Send Invite
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Company Detail Modal -->
+  <div class="modal" id="companyDetailModal">
+    <div class="modal__backdrop" data-action="close-company-detail" aria-hidden="true"></div>
+    <div class="modal__container modal__container--xl">
+      <button class="modal__close" data-action="close-company-detail" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="company-detail" id="companyDetail">
+        <div class="company-detail__header">
+          <div class="company-detail__info">
+            <h2 class="company-detail__name" id="companyDetailName">Company Name</h2>
+            <span class="company-detail__category" id="companyDetailCategory">Category</span>
+          </div>
+          <div class="company-detail__actions" id="companyDetailActions">
+            <!-- Actions will be populated by JS based on user role -->
+          </div>
+        </div>
+
+        <p class="company-detail__description" id="companyDetailDescription">Description goes here...</p>
+
+        <div class="company-detail__tabs">
+          <button class="company-detail__tab active" data-company-tab="members">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            Members
+          </button>
+          <button class="company-detail__tab" data-company-tab="content">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <path d="M3 3h18v18H3z"/>
+              <path d="M9 3v18"/>
+              <path d="M15 3v18"/>
+              <path d="M3 9h18"/>
+              <path d="M3 15h18"/>
+            </svg>
+            Content
+          </button>
+          <button class="company-detail__tab" data-company-tab="collaborations">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <circle cx="18" cy="5" r="3"/>
+              <circle cx="6" cy="12" r="3"/>
+              <circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            </svg>
+            Collaborations
+          </button>
+          <button class="company-detail__tab" data-company-tab="invitations">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <rect x="3" y="5" width="18" height="14" rx="2"/>
+              <polyline points="3 7 12 13 21 7"/>
+            </svg>
+            Invitations
+          </button>
+          <button class="company-detail__tab" data-company-tab="settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            Settings
+          </button>
+        </div>
+
+        <!-- Members Panel -->
+        <div class="company-detail__panel active" data-company-panel="members">
+          <div class="company-members" id="companyMembersList">
+            <!-- Members will be populated by JS -->
+          </div>
+        </div>
+
+        <!-- Content Panel (Lines, Stations, Buildings) -->
+        <div class="company-detail__panel" data-company-panel="content">
+          <div class="content-section">
+            <!-- Content Type Filter -->
+            <div class="content-filters">
+              <button class="content-filter active" data-content-type="all">All</button>
+              <button class="content-filter" data-content-type="line">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                  <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+                  <line x1="4" y1="22" x2="4" y2="15"/>
+                </svg>
+                Lines
+              </button>
+              <button class="content-filter" data-content-type="station">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                  <circle cx="12" cy="12" r="10"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                Stations
+              </button>
+              <button class="content-filter" data-content-type="building">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                  <path d="M3 21h18"/>
+                  <path d="M5 21V7l8-4v18"/>
+                  <path d="M19 21V11l-6-4"/>
+                </svg>
+                Buildings
+              </button>
+            </div>
+
+            <!-- Content List -->
+            <div class="content-list" id="companyContentList">
+              <!-- Content will be populated by JS -->
+            </div>
+
+            <!-- Shared Content from Collaborators -->
+            <div class="content-shared-section" id="sharedContentSection" style="display: none;">
+              <h4 class="content-shared__title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                  <circle cx="18" cy="5" r="3"/>
+                  <circle cx="6" cy="12" r="3"/>
+                  <circle cx="18" cy="19" r="3"/>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                </svg>
+                Shared by Collaborators
+              </h4>
+              <div class="content-list" id="sharedContentList">
+                <!-- Shared content will be populated by JS -->
+              </div>
+            </div>
+
+            <!-- Add Content Button -->
+            <div class="content-actions" id="contentActionsPanel">
+              <button class="btn btn--primary" data-action="add-content">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                Add Content
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Collaborations Panel -->
+        <div class="company-detail__panel" data-company-panel="collaborations">
+          <div class="collaborations-section">
+            <!-- Incoming Requests -->
+            <div class="collaborations-group" id="incomingCollabRequests">
+              <h4 class="collaborations-group__title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                  <polyline points="22 12 16 12"/>
+                  <polyline points="22 12 18 8"/>
+                  <polyline points="22 12 18 16"/>
+                  <line x1="2" y1="12" x2="12" y2="12"/>
+                </svg>
+                Incoming Requests
+              </h4>
+              <div class="collaborations-list" id="incomingCollabList">
+                <!-- Incoming requests will be populated by JS -->
+              </div>
+            </div>
+
+            <!-- Active Collaborations -->
+            <div class="collaborations-group" id="activeCollaborations">
+              <h4 class="collaborations-group__title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                  <circle cx="18" cy="5" r="3"/>
+                  <circle cx="6" cy="12" r="3"/>
+                  <circle cx="18" cy="19" r="3"/>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                </svg>
+                Active Collaborations
+              </h4>
+              <div class="collaborations-list" id="activeCollabList">
+                <!-- Active collaborations will be populated by JS -->
+              </div>
+            </div>
+
+            <!-- Outgoing Requests -->
+            <div class="collaborations-group" id="outgoingCollabRequests">
+              <h4 class="collaborations-group__title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                  <polyline points="2 12 8 12"/>
+                  <polyline points="2 12 6 8"/>
+                  <polyline points="2 12 6 16"/>
+                  <line x1="12" y1="12" x2="22" y2="12"/>
+                </svg>
+                Outgoing Requests
+              </h4>
+              <div class="collaborations-list" id="outgoingCollabList">
+                <!-- Outgoing requests will be populated by JS -->
+              </div>
+            </div>
+
+            <!-- Request Collaboration Button -->
+            <div class="collaborations-actions" id="collabActionsPanel">
+              <button class="btn btn--primary" data-action="request-collaboration">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                Request Collaboration
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Invitations Panel -->
+        <div class="company-detail__panel" data-company-panel="invitations">
+          <div class="company-invitations" id="companyInvitationsList">
+            <!-- Invitations will be populated by JS -->
+          </div>
+        </div>
+
+        <!-- Settings Panel -->
+        <div class="company-detail__panel" data-company-panel="settings">
+          <div class="company-settings" id="companySettingsPanel">
+            <!-- Settings will be populated by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Content Modal -->
+  <div class="modal" id="addContentModal">
+    <div class="modal__backdrop" data-action="close-content-modal" aria-hidden="true"></div>
+    <div class="modal__container">
+      <button class="modal__close" data-action="close-content-modal" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="create-wizard">
+        <div class="create-wizard__header">
+          <div class="create-wizard__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 3h18v18H3z"/>
+              <path d="M9 3v18"/>
+              <path d="M15 3v18"/>
+              <path d="M3 9h18"/>
+              <path d="M3 15h18"/>
+            </svg>
+          </div>
+          <h2 class="create-wizard__title" id="contentModalTitle">Add Content</h2>
+          <p class="create-wizard__subtitle" id="contentModalSubtitle">Create a new line, station, or building</p>
+        </div>
+
+        <form class="create-wizard__form" id="addContentForm">
+          <input type="hidden" id="contentCompanyId">
+          <input type="hidden" id="contentItemId">
+
+          <div class="form-group">
+            <label class="form-label" for="contentType">Content Type</label>
+            <div class="content-type-selector" id="contentTypeSelector">
+              <label class="content-type-option">
+                <input type="radio" name="contentType" value="line" checked>
+                <div class="content-type-option__card">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+                    <line x1="4" y1="22" x2="4" y2="15"/>
+                  </svg>
+                  <span>Line</span>
+                </div>
+              </label>
+              <label class="content-type-option">
+                <input type="radio" name="contentType" value="station">
+                <div class="content-type-option__card">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                  <span>Station</span>
+                </div>
+              </label>
+              <label class="content-type-option">
+                <input type="radio" name="contentType" value="building">
+                <div class="content-type-option__card">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 21h18"/>
+                    <path d="M5 21V7l8-4v18"/>
+                    <path d="M19 21V11l-6-4"/>
+                  </svg>
+                  <span>Building</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contentName">Name</label>
+            <input type="text" class="form-input" id="contentName" placeholder="Enter name..." required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="contentDescription">Description</label>
+            <textarea class="form-textarea" id="contentDescription" rows="3" placeholder="Enter description (optional)..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-checkbox">
+              <input type="checkbox" id="contentShared">
+              <span class="form-checkbox__box"></span>
+              <span class="form-checkbox__label">
+                Share with collaborators
+                <span class="form-hint">Allow collaborating companies to view and edit this content</span>
+              </span>
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--ghost" data-action="close-content-modal">Cancel</button>
+            <button type="submit" class="btn btn--primary" id="submitContentBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              Save Content
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Request Collaboration Modal -->
+  <div class="modal" id="requestCollabModal">
+    <div class="modal__backdrop" data-action="close-collab-modal" aria-hidden="true"></div>
+    <div class="modal__container">
+      <button class="modal__close" data-action="close-collab-modal" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="create-wizard">
+        <div class="create-wizard__header">
+          <div class="create-wizard__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="18" cy="5" r="3"/>
+              <circle cx="6" cy="12" r="3"/>
+              <circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            </svg>
+          </div>
+          <h2 class="create-wizard__title">Request Collaboration</h2>
+          <p class="create-wizard__subtitle" id="collabModalCompanyName">Connect with another company</p>
+        </div>
+
+        <form class="create-wizard__form" id="requestCollabForm">
+          <input type="hidden" id="collabFromCompanyId">
+
+          <div class="form-group">
+            <label class="form-label" for="collabCompanySearch">Search Company</label>
+            <div class="search-box search-box--full">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35"/>
+              </svg>
+              <input type="text" class="search-box__input" id="collabCompanySearch" placeholder="Search for a company...">
+            </div>
+            <span class="form-hint">Find a company to collaborate with</span>
+          </div>
+
+          <div class="collab-search-results" id="collabSearchResults">
+            <div class="empty-state empty-state--compact">
+              <p>Search for a company to send a collaboration request</p>
+            </div>
+          </div>
+
+          <div class="collab-selected" id="collabSelectedCompany" style="display: none;">
+            <div class="collab-selected__header">Selected Company</div>
+            <div class="collab-selected__card">
+              <div class="collab-selected__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M3 21h18"/>
+                  <path d="M5 21V7l8-4v18"/>
+                  <path d="M19 21V11l-6-4"/>
+                </svg>
+              </div>
+              <div class="collab-selected__info">
+                <span class="collab-selected__name" id="collabSelectedName">Company Name</span>
+                <span class="collab-selected__category" id="collabSelectedCategory">Category</span>
+              </div>
+              <button type="button" class="btn btn--ghost btn--icon" data-action="clear-collab-selection">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            </div>
+            <input type="hidden" id="collabToCompanyId">
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--ghost" data-action="close-collab-modal">Cancel</button>
+            <button type="submit" class="btn btn--primary" id="submitCollabBtn" disabled>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+              Send Request
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Moderation Review Modal -->
+  <div class="modal" id="moderationReviewModal">
+    <div class="modal__backdrop" data-action="close-moderation-modal" aria-hidden="true"></div>
+    <div class="modal__container modal__container--medium">
+      <button class="modal__close" data-action="close-moderation-modal" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="moderation-review">
+        <div class="moderation-review__header">
+          <div class="moderation-review__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M9 12l2 2 4-4"/>
+              <circle cx="12" cy="12" r="10"/>
+            </svg>
+          </div>
+          <h2 class="moderation-review__title">Review Request</h2>
+          <p class="moderation-review__subtitle" id="moderationReviewType">Content Creation Request</p>
+        </div>
+
+        <div class="moderation-review__details">
+          <div class="moderation-detail">
+            <span class="moderation-detail__label">Requester</span>
+            <div class="moderation-detail__value" id="moderationReviewUser">
+              <img class="moderation-detail__avatar" src="" alt="">
+              <span class="moderation-detail__name">User Name</span>
+            </div>
+          </div>
+
+          <div class="moderation-detail">
+            <span class="moderation-detail__label">Company</span>
+            <span class="moderation-detail__value" id="moderationReviewCompany">Company Name</span>
+          </div>
+
+          <div class="moderation-detail">
+            <span class="moderation-detail__label">Submitted</span>
+            <span class="moderation-detail__value" id="moderationReviewDate">Date</span>
+          </div>
+
+          <div class="moderation-detail moderation-detail--full">
+            <span class="moderation-detail__label">Content Details</span>
+            <div class="moderation-detail__content" id="moderationReviewContent">
+              <div class="content-preview">
+                <div class="content-preview__item">
+                  <span class="content-preview__key">Type:</span>
+                  <span class="content-preview__value" id="moderationContentType">Line</span>
+                </div>
+                <div class="content-preview__item">
+                  <span class="content-preview__key">Name:</span>
+                  <span class="content-preview__value" id="moderationContentName">Content Name</span>
+                </div>
+                <div class="content-preview__item">
+                  <span class="content-preview__key">Description:</span>
+                  <span class="content-preview__value" id="moderationContentDesc">Content Description</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="moderation-review__comment">
+          <label class="form-label" for="moderationComment">Review Comment (optional)</label>
+          <textarea class="form-input" id="moderationComment" rows="3" placeholder="Add a comment for the requester..."></textarea>
+          <span class="form-hint">This comment will be sent to the requester</span>
+        </div>
+
+        <input type="hidden" id="moderationReviewId">
+
+        <div class="moderation-review__actions">
+          <button type="button" class="btn btn--ghost" data-action="close-moderation-modal">Cancel</button>
+          <button type="button" class="btn btn--warning" data-action="request-revision">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+            Request Revision
+          </button>
+          <button type="button" class="btn btn--danger" data-action="reject-moderation">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+            Reject
+          </button>
+          <button type="button" class="btn btn--success" data-action="approve-moderation">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            Approve
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Markdown parser + sanitizer -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+
+  <!-- Core scripts: AuthManager is THE auth source -->
+  <script src="js/api-fetch-simple.js"></script>
+  <script src="js/prefetch.js"></script>
+  <script src="js/header-metrics.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/data-layer.js"></script>
+  <script src="js/auth-manager.js"></script>
+  <script src="js/guards-new.js" data-require-auth="true"></script>
+  <script src="js/components.js"></script>
+  <script src="js/main.js"></script>
+  <!-- User Management Overlay -->
+  <div class="user-overlay" id="userManagementOverlay">
+    <div class="user-overlay__backdrop" data-action="close-user-overlay"></div>
+    <div class="user-overlay__content">
+      <div class="user-overlay__header">
+        <h2 class="user-overlay__title">User Management</h2>
+        <button class="user-overlay__close" data-action="close-user-overlay" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="user-overlay__body" id="userOverlayBody">
+        <!-- Content will be populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

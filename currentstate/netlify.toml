@@ -1,0 +1,16 @@
+[build]
+  base = "apps/web"
+  command = "pnpm -C ../.. install --frozen-lockfile && pnpm -C ../.. --filter @prismmtr/web build"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://api.prismmtr.com/:splat"
+  status = 200
+  force = true
+
+[context.deploy-preview.environment]
+  NEXT_PUBLIC_E2E_TEST_MODE = "true"
+  NEXT_PUBLIC_OAUTH_DISABLED = "true"

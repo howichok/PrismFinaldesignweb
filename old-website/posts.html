@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PrismMTR - Posts</title>
+
+  <!-- Open Graph / Social Media Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PrismMTR Posts">
+  <meta property="og:description" content="News, updates, and announcements from the PrismMTR community">
+  <meta property="og:image" content="assets/img/PrismMTRlogo-optimized.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PrismMTR Posts">
+  <meta name="twitter:description" content="News, updates, and announcements from the PrismMTR community">
+  <meta name="twitter:image" content="assets/img/PrismMTRlogo-optimized.png">
+
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+
+  <!-- CRITICAL: Theme must be set BEFORE any CSS loads to prevent white flash -->
+  <script>
+    (function() {
+      try {
+        var darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (darkMode) {
+          document.documentElement.classList.add('dark-mode');
+          document.documentElement.style.colorScheme = 'dark';
+        }
+      } catch(e) {}
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/posts.css">
+</head>
+<body data-page="posts">
+  <canvas id="starCanvas"></canvas>
+
+  <main class="posts-page">
+    <!-- Hero -->
+    <section class="posts-hero">
+      <span class="hero-badge">Community</span>
+      <h1 class="posts-hero__title">Posts</h1>
+      <p class="posts-hero__subtitle">News, updates, and announcements from the community</p>
+    </section>
+
+    <!-- Filters -->
+    <section class="posts-controls">
+      <div class="posts-filters">
+        <select id="filterCategory">
+          <option value="">All Categories</option>
+          <option value="news">News</option>
+          <option value="update">Update</option>
+          <option value="announcement">Announcement</option>
+          <option value="guide">Guide</option>
+          <option value="showcase">Showcase</option>
+        </select>
+      </div>
+      <div class="posts-view-toggle">
+        <button class="view-toggle-btn" data-view="list" title="List View">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="8" y1="6" x2="21" y2="6"/>
+            <line x1="8" y1="12" x2="21" y2="12"/>
+            <line x1="8" y1="18" x2="21" y2="18"/>
+            <line x1="3" y1="6" x2="3.01" y2="6"/>
+            <line x1="3" y1="12" x2="3.01" y2="12"/>
+            <line x1="3" y1="18" x2="3.01" y2="18"/>
+          </svg>
+        </button>
+        <button class="view-toggle-btn active" data-view="grid" title="Grid View">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"/>
+            <rect x="14" y="3" width="7" height="7"/>
+            <rect x="14" y="14" width="7" height="7"/>
+            <rect x="3" y="14" width="7" height="7"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- Posts List -->
+    <section class="posts-list posts-list--grid" id="postsList">
+      <!-- Loading -->
+      <div class="posts-loading" id="postsLoading">
+        <div class="spinner"></div>
+        <p>Loading posts...</p>
+      </div>
+
+      <!-- Empty State -->
+      <div class="posts-empty" id="postsEmpty" style="display: none;">
+        <div class="posts-empty__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+        </div>
+        <h3>No posts yet</h3>
+        <p>Be the first to share something with the community!</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Markdown parser + sanitizer -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+
+  <script src="js/api-fetch-simple.js"></script>
+  <script src="js/prefetch.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth-manager.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/posts.js"></script>
+</body>
+</html>

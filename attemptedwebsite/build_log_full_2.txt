@@ -1,0 +1,24 @@
+
+> prismmtr-site@0.1.0 build
+> next build
+
+▲ Next.js 16.1.4 (Turbopack)
+- Environments: .env
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 6.4s
+  Running TypeScript ...
+Failed to compile.
+
+./app/api/company/[companyId]/collab-invites/[inviteId]/accept/route.ts:30:17
+Type error: 'session' is possibly 'null'.
+
+[0m [90m 28 |[39m       companyId_userId[33m:[39m {
+ [90m 29 |[39m         companyId[33m:[39m params[33m.[39mcompanyId[33m,[39m
+[31m[1m>[22m[39m[90m 30 |[39m         userId[33m:[39m session[33m.[39muserId[33m,[39m
+ [90m    |[39m                 [31m[1m^[22m[39m
+ [90m 31 |[39m       }[33m,[39m
+ [90m 32 |[39m     }[33m,[39m
+ [90m 33 |[39m     select[33m:[39m {[0m
+Next.js build worker exited with code: 1 and signal: null

@@ -1,0 +1,747 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PrismMTR - Download Page Stylesheet
+   Premium Glassmorphism 2.0 Design
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DOWNLOAD PAGE LAYOUT
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.download-page {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  padding: calc(var(--header-height) + 48px) var(--content-padding) 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.download-hero {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.download-hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HERO TITLE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.download-hero__title {
+  margin-bottom: 20px;
+  animation: fadeInUp 0.6s var(--ease-out-expo) 0.1s both;
+}
+
+.download-hero__title-small {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+}
+
+.download-hero__title-main {
+  display: block;
+  font-size: clamp(48px, 10vw, 80px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--color-text) 0%, var(--color-text-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.download-hero__subtitle {
+  font-size: 17px;
+  color: var(--color-text-secondary);
+  max-width: 500px;
+  margin-bottom: 48px;
+  line-height: 1.6;
+  animation: fadeInUp 0.6s var(--ease-out-expo) 0.2s both;
+}
+
+.text-highlight {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DOWNLOAD CARD
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.download-card {
+  width: 100%;
+  max-width: 520px;
+  padding: 32px;
+  margin-bottom: 48px;
+  animation: fadeInUp 0.6s var(--ease-out-expo) 0.3s both;
+}
+
+.download-card:hover {
+  transform: translateY(-4px);
+}
+
+.download-card__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.download-card__icon {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: var(--radius-lg);
+}
+
+.download-card__icon svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--color-bg);
+}
+
+.download-card__icon .download-card__logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.download-card__info {
+  flex: 1;
+  text-align: left;
+}
+
+.download-card__title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-bottom: 4px;
+}
+
+.download-card__meta {
+  font-size: 13px;
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PLATFORM SELECTOR
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.platform-selector {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.platform-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 12px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  transition: all var(--duration-fast) var(--ease-out-expo);
+  cursor: pointer;
+  position: relative;
+}
+
+.platform-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.platform-btn:hover:not(:disabled) {
+  border-color: var(--color-text);
+  color: var(--color-text);
+}
+
+.platform-btn.active {
+  background: var(--color-text);
+  border-color: var(--color-text);
+  color: var(--color-bg);
+}
+
+.platform-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.platform-soon {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 6px;
+  background: var(--color-warning);
+  color: white;
+  border-radius: var(--radius-sm);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   AUTH GATE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.download-card__auth {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.auth-required {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: var(--radius-md);
+  text-align: left;
+}
+
+.auth-required svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--color-warning);
+  flex-shrink: 0;
+}
+
+.auth-required__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.auth-required__text strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.auth-required__text span {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DOWNLOAD READY
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.download-card__ready {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.user-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: var(--radius-md);
+}
+
+.user-badge__avatar {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-success);
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: var(--radius-full);
+}
+
+.user-badge__info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.user-badge__name {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.user-badge__status {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--color-success);
+}
+
+.download-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FEATURES GRID
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+  max-width: 720px;
+  animation: fadeInUp 0.6s var(--ease-out-expo) 0.4s both;
+}
+
+.feature-card {
+  padding: 24px;
+  text-align: center;
+}
+
+.feature-card__icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.feature-card__icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--color-text);
+}
+
+.feature-card__title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.feature-card__desc {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .download-page {
+    padding-top: calc(var(--header-height) + 32px);
+  }
+  
+  .download-hero__title-main {
+    font-size: 48px;
+  }
+  
+  .download-card {
+    padding: 24px;
+  }
+  
+  .platform-selector {
+    flex-direction: column;
+  }
+  
+  .platform-btn {
+    flex-direction: row;
+    padding: 12px 16px;
+    gap: 12px;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .feature-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-align: left;
+  }
+  
+  .feature-card__icon {
+    margin: 0;
+    flex-shrink: 0;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MC NICKNAME MODAL (Premium Redesign)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.mc-nickname-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.15);
+  animation: modalSlideIn 0.4s var(--ease-out-expo);
+}
+
+body.dark-mode .mc-nickname-card {
+  background: var(--color-surface-elevated);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.mc-nickname-card__header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.mc-nickname-card__icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  background: linear-gradient(135deg, var(--color-accent), #6366f1);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mc-nickname-card__icon svg {
+  width: 32px;
+  height: 32px;
+  stroke: #fff;
+}
+
+.mc-nickname-card__title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.mc-nickname-card__subtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.mc-nickname-card__info {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(37, 99, 235, 0.08);
+  border: 1px solid rgba(37, 99, 235, 0.15);
+  border-radius: var(--radius-md);
+  margin-bottom: 24px;
+}
+
+.mc-nickname-card__info svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--color-accent);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.mc-nickname-card__info p {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.mc-nickname-card__form {
+  margin-bottom: 24px;
+}
+
+.mc-nickname-card__label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.mc-nickname-card__input-wrapper {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.mc-nickname-card__input {
+  width: 100%;
+  padding: 14px 60px 14px 16px;
+  font-size: 15px;
+  font-family: var(--font-mono);
+  background: var(--color-bg);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  transition: all var(--duration-fast);
+}
+
+.mc-nickname-card__input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.mc-nickname-card__input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.mc-nickname-card__counter {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--color-text-muted);
+}
+
+.mc-nickname-card__rules {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.mc-nickname-card__rule {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  transition: color var(--duration-fast);
+}
+
+.mc-nickname-card__rule svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--color-text-muted);
+  transition: all var(--duration-fast);
+}
+
+.mc-nickname-card__rule.valid {
+  color: var(--color-success);
+}
+
+.mc-nickname-card__rule.valid svg {
+  stroke: var(--color-success);
+}
+
+.mc-nickname-card__rule.invalid {
+  color: var(--color-danger);
+}
+
+.mc-nickname-card__rule.invalid svg {
+  stroke: var(--color-danger);
+}
+
+.mc-nickname-card__status {
+  font-size: 13px;
+  margin: 0;
+  min-height: 20px;
+}
+
+.mc-nickname-card__status.error {
+  color: var(--color-danger);
+}
+
+.mc-nickname-card__submit {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 24px;
+  font-size: 15px;
+  font-weight: 700;
+  background: var(--color-text);
+  color: var(--color-bg);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out-expo);
+}
+
+.mc-nickname-card__submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.mc-nickname-card__submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.mc-nickname-card__submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.mc-nickname-card__submit svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NICKNAME CHANGE MODAL ADDITIONS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Current nickname display */
+.mc-nickname-card__current {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+}
+
+.mc-nickname-card__current-label {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+}
+
+.mc-nickname-card__current-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+}
+
+/* Warning variant for info box */
+.mc-nickname-card__info--warning {
+  background: rgba(var(--color-warning-rgb, 255, 193, 7), 0.1);
+  border-color: rgba(var(--color-warning-rgb, 255, 193, 7), 0.3);
+}
+
+.mc-nickname-card__info--warning svg {
+  color: var(--color-warning, #ffc107);
+}
+
+/* Actions container */
+.mc-nickname-card__actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.mc-nickname-card__actions .mc-nickname-card__submit {
+  flex: 1;
+}
+
+/* Cancel button */
+.mc-nickname-card__cancel {
+  padding: 16px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out-expo);
+}
+
+.mc-nickname-card__cancel:hover {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border-color: var(--color-text-tertiary);
+}
+
+/* Pending state icon */
+.mc-nickname-card__icon--pending {
+  background: rgba(var(--color-warning-rgb, 255, 193, 7), 0.15);
+  color: var(--color-warning, #ffc107);
+}
+
+/* Pending request details */
+.mc-nickname-card__pending-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  margin-bottom: 16px;
+}
+
+.mc-nickname-card__pending-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mc-nickname-card__pending-label {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+  min-width: 70px;
+}
+
+.mc-nickname-card__pending-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  padding: 6px 12px;
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+}
+
+.mc-nickname-card__pending-value--new {
+  background: rgba(var(--color-success-rgb, 34, 197, 94), 0.15);
+  color: var(--color-success, #22c55e);
+}
+
+.mc-nickname-card__pending-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--color-text-tertiary);
+}
+
+.mc-nickname-card__pending-arrow svg {
+  width: 20px;
+  height: 20px;
+}

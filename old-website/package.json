@@ -1,0 +1,32 @@
+{
+  "name": "prismmtr-site",
+  "version": "7.0.0",
+  "description": "PrismMTR - Minecraft Transit Railway Launcher Website",
+  "scripts": {
+    "dev": "netlify dev",
+    "optimize-images": "node scripts/optimize-images.js",
+    "remove-local-keys": "node scripts/remove-local-keys.js",
+    "verify-netlify": "netlify status && netlify env:list"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/prismmtr/prismmtr-site"
+  },
+  "keywords": [
+    "minecraft",
+    "transit",
+    "railway",
+    "launcher"
+  ],
+  "author": "PrismMTR Team",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.91.0"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en" class="app-shell">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Hub - PrismMTR</title>
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Company Hub - PrismMTR">
+  <meta property="og:description" content="Manage your company, create content, and collaborate">
+  <meta property="og:image" content="assets/img/PrismMTRlogo-optimized.png">
+
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+
+  <script>
+    (function() {
+      try {
+        var darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (darkMode) {
+          document.documentElement.classList.add('dark-mode');
+          document.documentElement.style.colorScheme = 'dark';
+        }
+      } catch(e) {}
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/company.css">
+  <link rel="stylesheet" href="css/app-shell.css">
+</head>
+<body data-page="company">
+  <canvas id="starCanvas"></canvas>
+
+  <!-- Sidebar Overlay (Mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Company Hub Layout -->
+  <div class="company-hub-layout" id="mainContent">
+
+    <!-- Company Sidebar -->
+    <aside class="company-sidebar" id="companySidebar">
+      <!-- Company Header -->
+      <div class="company-sidebar__header">
+        <div class="company-sidebar__logo" id="sidebarCompanyLogo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/>
+          </svg>
+        </div>
+        <div class="company-sidebar__info">
+          <h2 class="company-sidebar__name" id="sidebarCompanyName">Loading...</h2>
+          <span class="company-sidebar__role" id="sidebarUserRole">Member</span>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="company-sidebar__nav">
+        <div class="company-sidebar__section">
+          <span class="company-sidebar__label">Content</span>
+          <button class="company-sidebar__item" data-panel="create-post" id="navCreatePost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="12" y1="11" x2="12" y2="17"/>
+              <line x1="9" y1="14" x2="15" y2="14"/>
+            </svg>
+            <span>Create Post</span>
+          </button>
+          <button class="company-sidebar__item" data-panel="create-project" id="navCreateProject">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+              <line x1="12" y1="11" x2="12" y2="17"/>
+              <line x1="9" y1="14" x2="15" y2="14"/>
+            </svg>
+            <span>Create Project</span>
+          </button>
+        </div>
+
+        <div class="company-sidebar__section company-sidebar__section--settings" id="settingsSection" style="display: none;">
+          <span class="company-sidebar__label">Management</span>
+          <button class="company-sidebar__item" data-action="open-settings" id="navSettings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            <span>Settings</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="company-sidebar__footer">
+        <a href="dashboard.html" class="company-sidebar__back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5"/>
+            <polyline points="12 19 5 12 12 5"/>
+          </svg>
+          <span>Return to Dashboard</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="company-main">
+      <!-- Loading State -->
+      <div class="company-loading" id="companyLoading">
+        <div class="spinner spinner--lg"></div>
+        <p>Loading company...</p>
+      </div>
+
+      <!-- Error State -->
+      <div class="company-error" id="companyError" style="display: none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="64" height="64">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <h2>Error</h2>
+        <p id="companyErrorMessage">Failed to load company</p>
+        <div class="company-error__actions">
+          <button class="btn btn--primary">Retry</button>
+          <a href="dashboard.html" class="btn btn--ghost">Back to Dashboard</a>
+        </div>
+      </div>
+
+      <!-- Create Post Panel -->
+      <div class="company-panel" id="panelCreatePost" style="display: none;">
+        <div class="panel-header">
+          <h1 class="panel-header__title">Create Post</h1>
+          <p class="panel-header__subtitle">Share news and updates from <span id="postCompanyName">your company</span></p>
+        </div>
+
+        <form id="createPostForm" class="wizard-form">
+          <div class="form-group">
+            <label class="form-label">Post Title *</label>
+            <input type="text" class="form-input" id="postTitle" placeholder="Enter a compelling title" maxlength="100" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Content *</label>
+            <div class="editor-container">
+              <div class="editor-toolbar">
+                <button type="button" class="editor-btn" data-format="bold" title="Bold">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                    <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/>
+                    <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/>
+                  </svg>
+                </button>
+                <button type="button" class="editor-btn" data-format="italic" title="Italic">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                    <line x1="19" y1="4" x2="10" y2="4"/>
+                    <line x1="14" y1="20" x2="5" y2="20"/>
+                    <line x1="15" y1="4" x2="9" y2="20"/>
+                  </svg>
+                </button>
+                <button type="button" class="editor-btn" data-format="link" title="Link">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                  </svg>
+                </button>
+              </div>
+              <textarea class="form-textarea form-textarea--editor" id="postContent" rows="10" placeholder="Write your post content here... Markdown is supported." required></textarea>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tags (optional)</label>
+            <input type="text" class="form-input" id="postTags" placeholder="news, update, announcement (comma separated)">
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--outline" id="saveDraftBtn">Save as Draft</button>
+            <button type="submit" class="btn btn--primary" id="publishPostBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+              Publish Post
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Create Project Panel -->
+      <div class="company-panel" id="panelCreateProject" style="display: none;">
+        <div class="panel-header">
+          <h1 class="panel-header__title">Create Project</h1>
+          <p class="panel-header__subtitle">Showcase a new project from <span id="projectCompanyName">your company</span></p>
+        </div>
+
+        <form id="createProjectForm" class="wizard-form">
+          <div class="form-group">
+            <label class="form-label">Project Name *</label>
+            <input type="text" class="form-input" id="projectName" placeholder="Enter project name" maxlength="80" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Category *</label>
+            <select class="form-select" id="projectCategory" required>
+              <option value="">Select a category</option>
+              <option value="metro">Metro / Transit</option>
+              <option value="rail">Railway</option>
+              <option value="city">City Building</option>
+              <option value="infrastructure">Infrastructure</option>
+              <option value="creative">Creative / Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Description *</label>
+            <textarea class="form-textarea" id="projectDescription" rows="6" placeholder="Describe your project..." maxlength="1000" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Cover Image URL (optional)</label>
+            <input type="url" class="form-input" id="projectCover" placeholder="https://example.com/image.jpg">
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn--primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+              </svg>
+              Create Project
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Default Welcome Panel -->
+      <div class="company-panel company-panel--welcome" id="panelWelcome">
+        <div class="welcome-content">
+          <div class="welcome-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/>
+            </svg>
+          </div>
+          <h1 class="welcome-title" id="welcomeCompanyName">Company Hub</h1>
+          <p class="welcome-description">Select an action from the sidebar to create content or manage your company.</p>
+          
+          <div class="welcome-stats" id="welcomeStats">
+            <div class="welcome-stat">
+              <span class="welcome-stat__value" id="statPosts">0</span>
+              <span class="welcome-stat__label">Posts</span>
+            </div>
+            <div class="welcome-stat">
+              <span class="welcome-stat__value" id="statProjects">0</span>
+              <span class="welcome-stat__label">Projects</span>
+            </div>
+            <div class="welcome-stat">
+              <span class="welcome-stat__value" id="statMembers">0</span>
+              <span class="welcome-stat__label">Members</span>
+            </div>
+          </div>
+
+          <div class="welcome-actions">
+            <button class="btn btn--primary btn--lg" data-panel="create-post">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <line x1="12" y1="11" x2="12" y2="17"/>
+                <line x1="9" y1="14" x2="15" y2="14"/>
+              </svg>
+              Create Post
+            </button>
+            <button class="btn btn--outline btn--lg" data-panel="create-project">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                <line x1="12" y1="11" x2="12" y2="17"/>
+                <line x1="9" y1="14" x2="15" y2="14"/>
+              </svg>
+              Create Project
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Mobile Sidebar Toggle -->
+  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Sidebar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+
+  <!-- Settings Overlay -->
+  <div class="settings-overlay" id="settingsOverlay">
+    <div class="settings-overlay__backdrop" data-action="close-settings"></div>
+    <div class="settings-overlay__panel">
+      <div class="settings-overlay__header">
+        <h2>Company Settings</h2>
+        <button class="settings-overlay__close" data-action="close-settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="settings-overlay__tabs">
+        <button class="settings-overlay__tab active" data-settings-tab="profile">Profile</button>
+        <button class="settings-overlay__tab" data-settings-tab="members">Members</button>
+        <button class="settings-overlay__tab" data-settings-tab="transfer" id="transferTab" style="display: none;">Transfer Ownership</button>
+      </div>
+
+      <div class="settings-overlay__content">
+        <!-- Profile Tab -->
+        <div class="settings-tab-panel active" data-settings-panel="profile">
+          <div class="form-group">
+            <label class="form-label">Company Logo</label>
+            <div class="logo-upload">
+              <div class="logo-upload__preview" id="settingsLogoPreview">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/>
+                </svg>
+              </div>
+              <div class="logo-upload__info">
+                <p class="logo-upload__title">Upload Logo</p>
+                <p class="logo-upload__hint">PNG or JPG, max 2MB</p>
+                <input type="file" id="settingsLogoInput" accept="image/png,image/jpeg" style="display: none;">
+                <button type="button" class="btn btn--sm btn--outline" onclick="document.getElementById('settingsLogoInput').click()">Choose File</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Company Name</label>
+            <input type="text" class="form-input" id="settingsName" maxlength="50">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Description</label>
+            <textarea class="form-textarea" id="settingsDescription" rows="4" maxlength="500"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Categories</label>
+            <div class="category-chips" id="settingsCategories">
+              <label class="category-chip">
+                <input type="checkbox" name="category" value="metro">
+                <span class="category-chip__label">Metro / Transit</span>
+              </label>
+              <label class="category-chip">
+                <input type="checkbox" name="category" value="rail">
+                <span class="category-chip__label">Railway</span>
+              </label>
+              <label class="category-chip">
+                <input type="checkbox" name="category" value="city">
+                <span class="category-chip__label">City Building</span>
+              </label>
+              <label class="category-chip">
+                <input type="checkbox" name="category" value="infrastructure">
+                <span class="category-chip__label">Infrastructure</span>
+              </label>
+              <label class="category-chip">
+                <input type="checkbox" name="category" value="creative">
+                <span class="category-chip__label">Creative</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--primary" id="saveSettingsBtn">Save Changes</button>
+          </div>
+
+          <div class="settings-danger">
+            <h3>Danger Zone</h3>
+            <p>Permanently delete this company and all associated data.</p>
+            <button type="button" class="btn btn--danger" id="deleteCompanyBtn">Delete Company</button>
+          </div>
+        </div>
+
+        <!-- Members Tab -->
+        <div class="settings-tab-panel" data-settings-panel="members">
+          <div class="members-section">
+            <h3>Add Member</h3>
+            <div class="member-search">
+              <input type="text" class="form-input" id="memberSearchInput" placeholder="Search by username or email...">
+              <div class="member-search__results" id="memberSearchResults"></div>
+            </div>
+          </div>
+
+          <div class="members-section">
+            <h3>Current Members</h3>
+            <div class="members-list" id="membersList">
+              <!-- Members will be loaded dynamically -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Transfer Ownership Tab -->
+        <div class="settings-tab-panel" data-settings-panel="transfer" id="transferPanel">
+          <div class="members-section members-section--danger">
+            <h3>Transfer Ownership</h3>
+            <p>Transfer company ownership to another member. This action cannot be undone. You will become a Co-owner.</p>
+            <div class="form-group">
+              <label class="form-label">Select New Owner</label>
+              <select class="form-select" id="transferSelect">
+                <option value="">Select a member...</option>
+              </select>
+            </div>
+            <button type="button" class="btn btn--danger" id="transferBtn" disabled>Transfer Ownership</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transfer Confirmation Modal -->
+  <div class="modal" id="transferModal">
+    <div class="modal__backdrop" data-action="close-transfer-modal"></div>
+    <div class="modal__content modal__content--sm">
+      <div class="modal__header">
+        <h3>Confirm Ownership Transfer</h3>
+      </div>
+      <div class="modal__body">
+        <p>Are you sure you want to transfer ownership of this company to <strong id="transferTargetName">this user</strong>?</p>
+        <p class="text-danger">This action cannot be undone. You will become a Co-owner.</p>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--outline" data-action="close-transfer-modal">Cancel</button>
+        <button class="btn btn--danger" id="confirmTransferBtn" disabled>
+          Confirm (<span id="transferCountdown">5</span>s)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/api-fetch-simple.js"></script>
+  <script src="js/prefetch.js"></script>
+  <script src="js/header-metrics.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth-manager.js"></script>
+  <script src="js/guards-new.js" data-require-auth="true"></script>
+  <script src="js/image-upload.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/company-hub.js"></script>
+</body>
+</html>

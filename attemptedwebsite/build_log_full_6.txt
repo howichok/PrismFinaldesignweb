@@ -1,0 +1,25 @@
+
+> prismmtr-site@0.1.0 build
+> next build
+
+▲ Next.js 16.1.4 (Turbopack)
+- Environments: .env
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 6.4s
+  Running TypeScript ...
+Failed to compile.
+
+./app/api/company/[companyId]/partnerships/invite/[inviteId]/accept/route.ts:143:41
+Type error: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+
+[0m [90m 141 |[39m       })[33m;[39m
+ [90m 142 |[39m     } [36melse[39m [36mif[39m ([33m![39mexistingPartnership) {
+[31m[1m>[22m[39m[90m 143 |[39m       [36mconst[39m pair [33m=[39m normalizeCompanyPair(invite[33m.[39mfromCompanyId[33m,[39m invite[33m.[39mtoCompanyId)[33m;[39m
+ [90m     |[39m                                         [31m[1m^[22m[39m
+ [90m 144 |[39m       [36mawait[39m tx[33m.[39mpartnership[33m.[39mcreate({
+ [90m 145 |[39m         data[33m:[39m {
+ [90m 146 |[39m           [33m...[39mpair[33m,[39m[0m
+Next.js build worker exited with code: 1 and signal: null

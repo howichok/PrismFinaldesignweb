@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PrismMTR - Minecraft Transit Railway Launcher</title>
+  <meta name="description" content="PrismMTR - Optimized launcher for Minecraft Transit Railway. Improved stability and performance for Fabric 1.20.1">
+  
+  <!-- Open Graph / Social Media Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PrismMTR - Minecraft Transit Railway Launcher">
+  <meta property="og:description" content="PrismMTR - Optimized launcher for Minecraft Transit Railway. Improved stability and performance for Fabric 1.20.1">
+  <meta property="og:image" content="assets/img/PrismMTRlogo-optimized.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PrismMTR - Minecraft Transit Railway Launcher">
+  <meta name="twitter:description" content="PrismMTR - Optimized launcher for Minecraft Transit Railway. Improved stability and performance for Fabric 1.20.1">
+  <meta name="twitter:image" content="assets/img/PrismMTRlogo-optimized.png">
+  
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+
+  <!-- CRITICAL: Theme must be set BEFORE any CSS loads to prevent white flash -->
+  <script>
+    (function() {
+      try {
+        var darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (darkMode) {
+          document.documentElement.classList.add('dark-mode');
+          document.documentElement.style.colorScheme = 'dark';
+        }
+      } catch(e) {}
+    })();
+  </script>
+
+  <!-- FALLBACK: Redirect OAuth callback from index.html to proper callback function -->
+  <script>
+    (function() {
+      var url = new URL(window.location.href);
+      var code = url.searchParams.get("code");
+      var state = url.searchParams.get("state");
+      
+      // If Discord redirected here with code/state, forward to callback function.
+      // This handles the case where Discord config points to index.html instead of the function.
+      if (code && state) {
+        var target = new URL("/.netlify/functions/auth-discord-callback", window.location.origin);
+        target.searchParams.set("code", code);
+        target.searchParams.set("state", state);
+        window.location.replace(target.toString());
+      }
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/posts.css">
+</head>
+<body data-page="home">
+  <!-- ═══════════════════════════════════════════════════════════
+       LAYER 0: Starfield Background (pointer-events: none)
+       ═══════════════════════════════════════════════════════════ -->
+  <canvas id="starCanvas" aria-hidden="true"></canvas>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       LAYER 10: Main Content (Hero)
+       Header, Modals, Toasts are injected by components.js
+       ═══════════════════════════════════════════════════════════ -->
+  <main class="hero" id="mainContent">
+    <h1 class="hero__title">
+      <span class="hero__title-line">Minecraft Transit Railway</span>
+      <span class="hero__title-accent">PrismMTR</span>
+    </h1>
+    <p class="hero__subtitle">
+      The optimized launcher for Minecraft Transit Railway.<br>
+      <span class="hero__highlight">Stability.</span> 
+      <span class="hero__highlight">Performance.</span> 
+      <span class="hero__highlight">Optimization.</span>
+    </p>
+    <div class="hero__actions">
+      <a href="download.html" class="btn btn--primary btn--glow" id="downloadCtaBtn">
+        <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+        </svg>
+        Download Launcher
+      </a>
+      <a href="help.html" class="btn btn--ghost">
+        <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/>
+        </svg>
+        Get Help
+      </a>
+    </div>
+    <div class="hero__stats">
+      <div class="stat">
+        <span class="stat__value">1.20.1</span>
+        <span class="stat__label">Fabric Version</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">MTR</span>
+        <span class="stat__label"> Prism Server</span>
+      </div>
+      <div class="stat">
+        <span class="stat__value">30+</span>
+        <span class="stat__label">FPS Boost</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- Posts Section -->
+  <section class="home-posts" id="homePostsSection">
+    <div class="home-posts__container">
+      <div class="home-posts__header">
+        <h2 class="home-posts__title">Latest Posts</h2>
+        <a href="posts.html" class="home-posts__view-all">View All Posts</a>
+      </div>
+      <div class="home-posts__list" id="homePostsList">
+        <div class="home-posts__loading">
+          <div class="spinner"></div>
+          <p>Loading posts...</p>
+        </div>
+      </div>
+      <div class="home-posts__empty" id="homePostsEmpty" style="display: none;">
+        <div class="home-posts__empty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+        </div>
+        <h3>No posts yet</h3>
+        <p>Be the first to share something with the community!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scripts: api-fetch-simple → prefetch → supabase → auth-manager → components → main -->
+  <script src="js/api-fetch-simple.js"></script>
+  <script src="js/prefetch.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth-manager.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

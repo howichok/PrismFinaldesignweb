@@ -1,0 +1,14 @@
+node_modules
+.next
+.dist
+out
+dist
+.env
+.env.*
+!.env.example
+
+# Prisma
+packages/db/prisma/migrations
+
+# Local Netlify folder
+.netlify

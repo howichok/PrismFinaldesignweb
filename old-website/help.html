@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PrismMTR - Help Center | Minecraft Transit Railway</title>
+
+  <!-- Open Graph / Social Media Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PrismMTR Help Center">
+  <meta property="og:description" content="Get help with PrismMTR launcher - FAQ, guides, and support">
+  <meta property="og:image" content="assets/img/PrismMTRlogo-optimized.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PrismMTR Help Center">
+  <meta name="twitter:description" content="Get help with PrismMTR launcher - FAQ, guides, and support">
+  <meta name="twitter:image" content="assets/img/PrismMTRlogo-optimized.png">
+
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+
+  <!-- CRITICAL: Theme must be set BEFORE any CSS loads to prevent white flash -->
+  <script>
+    (function() {
+      try {
+        var darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (darkMode) {
+          document.documentElement.classList.add('dark-mode');
+          document.documentElement.style.colorScheme = 'dark';
+        }
+      } catch(e) {}
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/help.css">
+</head>
+<body data-page="help">
+  <canvas id="starCanvas"></canvas>
+
+  <main class="help-page">
+    <!-- Hero Section -->
+    <section class="help-hero">
+      <div class="help-hero__container">
+        <span class="hero-badge">Help Center</span>
+        <h1 class="help-hero__title">How can we help you?</h1>
+        <p class="help-hero__subtitle">Find answers, guides, and get support from our team</p>
+
+        <!-- Search Bar -->
+        <div class="help-search">
+          <svg class="help-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="M21 21l-4.35-4.35"/>
+          </svg>
+          <input type="text" class="help-search__input" id="helpSearch" placeholder="Search for help topics, guides, or FAQ...">
+        </div>
+      </div>
+    </section>
+
+    <!-- Category Cards -->
+    <section class="help-categories">
+      <div class="help-category-grid">
+        <a href="#getting-started" class="help-category-card">
+          <div class="help-category-card__icon help-category-card__icon--green">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+          </div>
+          <h3 class="help-category-card__title">Getting Started</h3>
+          <p class="help-category-card__desc">New to PrismMTR? Start here</p>
+        </a>
+
+        <a href="#guides" class="help-category-card">
+          <div class="help-category-card__icon help-category-card__icon--blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+          </div>
+          <h3 class="help-category-card__title">Guides & Tutorials</h3>
+          <p class="help-category-card__desc">Learn how to use features</p>
+        </a>
+
+        <a href="#faq" class="help-category-card">
+          <div class="help-category-card__icon help-category-card__icon--purple">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+              <circle cx="12" cy="17" r="0.5" fill="currentColor"/>
+            </svg>
+          </div>
+          <h3 class="help-category-card__title">FAQ</h3>
+          <p class="help-category-card__desc">Quick answers to common questions</p>
+        </a>
+
+        <a href="#contact" class="help-category-card">
+          <div class="help-category-card__icon help-category-card__icon--orange">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <h3 class="help-category-card__title">Contact Support</h3>
+          <p class="help-category-card__desc">Get help from our team</p>
+        </a>
+      </div>
+    </section>
+
+    <!-- Getting Started Section -->
+    <section class="help-section" id="getting-started">
+      <div class="help-section__header">
+        <h2 class="help-section__title">Getting Started</h2>
+        <p class="help-section__subtitle">Everything you need to know to get up and running</p>
+      </div>
+
+      <div class="getting-started-grid">
+        <div class="getting-started-card">
+          <div class="getting-started-card__step">1</div>
+          <div class="getting-started-card__content">
+            <h3>Create an Account</h3>
+            <p>Sign up using GitHub, Google, or Discord. Your account gives you access to all PrismMTR features.</p>
+          </div>
+        </div>
+
+        <div class="getting-started-card">
+          <div class="getting-started-card__step">2</div>
+          <div class="getting-started-card__content">
+            <h3>Download the Launcher</h3>
+            <p>Head to the <a href="download.html">Download page</a> and get the PrismMTR launcher for your platform.</p>
+          </div>
+        </div>
+
+        <div class="getting-started-card">
+          <div class="getting-started-card__step">3</div>
+          <div class="getting-started-card__content">
+            <h3>Set Your Minecraft Nickname</h3>
+            <p>In your Dashboard settings, add your Minecraft nickname to get whitelisted on community servers.</p>
+          </div>
+        </div>
+
+        <div class="getting-started-card">
+          <div class="getting-started-card__step">4</div>
+          <div class="getting-started-card__content">
+            <h3>Connect Discord</h3>
+            <p>Link your Discord account to receive notifications and get priority support from our team.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Guides Section -->
+    <section class="help-section" id="guides">
+      <div class="help-section__header">
+        <h2 class="help-section__title">Guides & Tutorials</h2>
+        <p class="help-section__subtitle">Learn how to make the most of PrismMTR</p>
+      </div>
+
+      <div class="guides-grid">
+        <div class="guide-card">
+          <div class="guide-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </div>
+          <h3 class="guide-card__title">Installing the Launcher</h3>
+          <p class="guide-card__desc">Step-by-step guide to download and install PrismMTR on Windows, macOS, or Linux.</p>
+          <span class="guide-card__tag">Beginner</span>
+        </div>
+
+        <div class="guide-card">
+          <div class="guide-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </div>
+          <h3 class="guide-card__title">Managing Your Instance</h3>
+          <p class="guide-card__desc">Learn how to configure your Minecraft instance, add mods, and optimize settings.</p>
+          <span class="guide-card__tag">Intermediate</span>
+        </div>
+
+        <div class="guide-card">
+          <div class="guide-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h3 class="guide-card__title">Creating a Company</h3>
+          <p class="guide-card__desc">Build and manage your transit company with team members and shared projects.</p>
+          <span class="guide-card__tag">Intermediate</span>
+        </div>
+
+        <div class="guide-card">
+          <div class="guide-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <h3 class="guide-card__title">Sharing Your Projects</h3>
+          <p class="guide-card__desc">Upload and showcase your metro builds, stations, and infrastructure with the community.</p>
+          <span class="guide-card__tag">Advanced</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="help-section" id="faq">
+      <div class="help-section__header">
+        <h2 class="help-section__title">Frequently Asked Questions</h2>
+        <p class="help-section__subtitle">Quick answers to common questions</p>
+      </div>
+
+      <!-- FAQ Filters -->
+      <div class="faq-filters">
+        <button class="faq-filter active" data-filter="all">All</button>
+        <button class="faq-filter" data-filter="general">General</button>
+        <button class="faq-filter" data-filter="account">Account</button>
+        <button class="faq-filter" data-filter="technical">Technical</button>
+      </div>
+
+      <div class="faq-list" id="faqList">
+        <!-- No Results State -->
+        <div class="faq-no-results" id="faqNoResults" style="display: none;">
+          <div class="faq-no-results__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="M21 21l-4.35-4.35"/>
+              <path d="M8 8l6 6"/>
+              <path d="M14 8l-6 6"/>
+            </svg>
+          </div>
+          <h3 class="faq-no-results__title">No results found</h3>
+          <p class="faq-no-results__text">We couldn't find any FAQ matching your search. Need help with something specific?</p>
+          <a href="#contact" class="btn btn--primary">Contact Support</a>
+        </div>
+
+        <details class="faq-item" data-category="general">
+          <summary class="faq-item__question">
+            <span>What is PrismMTR?</span>
+            <svg class="faq-item__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </summary>
+          <div class="faq-item__answer">
+            <p>PrismMTR is a dedicated Minecraft Transit Railway launcher optimized for Fabric 1.20.1. MTR stands for Minecraft Transit Railway - a mod that adds realistic trains, railway systems, and transit infrastructure to Minecraft. PrismMTR provides stability, performance optimization, and seamless mod management for the best MTR experience.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-category="technical">
+          <summary class="faq-item__question">
+            <span>How do I install PrismMTR?</span>
+            <svg class="faq-item__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </summary>
+          <div class="faq-item__answer">
+            <p>Go to the <a href="download.html">Download page</a>, sign in with GitHub, Google, or Discord, then click the Download button. Run the installer and follow the on-screen prompts. The launcher comes pre-configured for MTR on Fabric 1.20.1.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-category="account">
+          <summary class="faq-item__question">
+            <span>Why do I need to connect Discord?</span>
+            <svg class="faq-item__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </summary>
+          <div class="faq-item__answer">
+            <p>Discord connection is required for support tickets so our team can contact you directly. It also enables priority support, community features, and allows you to receive notifications about your projects and account.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-category="account">
+          <summary class="faq-item__question">
+            <span>What is a Minecraft nickname for?</span>
+            <svg class="faq-item__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </summary>
+          <div class="faq-item__answer">
+            <p>Your Minecraft nickname is used for whitelist functionality on our community servers and to identify you in-game. It must match your actual Minecraft username exactly (case-sensitive).</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-category="technical">
+          <summary class="faq-item__question">
+            <span>How do I add mods to my instance?</span>
+            <svg class="faq-item__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </summary>
+          <div class="faq-item__answer">
+            <p>PrismMTR comes pre-configured with the Minecraft Transit Railway mod and recommended dependencies. To add additional mods, open the launcher, select your instance, and use the built-in mod browser. All mods are verified for Fabric 1.20.1 compatibility.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-category="general">
+          <summary class="faq-item__question">
+            <span>Is PrismMTR free to use?</span>
+            <svg class="faq-item__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </summary>
+          <div class="faq-item__answer">
+            <p>Yes! PrismMTR is completely free and open source. It's built by the community for the Minecraft Transit Railway community.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-category="technical">
+          <summary class="faq-item__question">
+            <span>What are the system requirements?</span>
+            <svg class="faq-item__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </summary>
+          <div class="faq-item__answer">
+            <p>PrismMTR requires Windows 10+, macOS 10.14+, or a modern Linux distribution. You'll need at least 4GB of RAM (8GB recommended), Java 17+, and a graphics card with OpenGL 4.4 support. The launcher will automatically manage Java installations for you.</p>
+          </div>
+        </details>
+
+        <details class="faq-item" data-category="account">
+          <summary class="faq-item__question">
+            <span>How do I delete my account?</span>
+            <svg class="faq-item__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </summary>
+          <div class="faq-item__answer">
+            <p>To delete your account, go to your Dashboard, navigate to Settings, and scroll to the bottom. Click "Delete Account" and confirm. This action is permanent and will remove all your data, projects, and company memberships.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="help-section" id="contact">
+      <div class="help-section__header">
+        <h2 class="help-section__title">Contact Support</h2>
+        <p class="help-section__subtitle">Can't find what you're looking for? We're here to help.</p>
+      </div>
+
+      <div class="contact-options">
+        <!-- Discord Card -->
+        <a href="https://discord.gg/prismmtr" target="_blank" rel="noopener" class="contact-card contact-card--discord">
+          <div class="contact-card__icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286z"/>
+            </svg>
+          </div>
+          <div class="contact-card__content">
+            <h3>Join our Discord</h3>
+            <p>Get help from the community and our team</p>
+          </div>
+          <svg class="contact-card__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 17l9.2-9.2M17 17V7H7"/>
+          </svg>
+        </a>
+
+        <!-- Submit Ticket Card -->
+        <div class="contact-card contact-card--ticket" id="ticketCard">
+          <div class="contact-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div class="contact-card__content">
+            <h3>Submit a Ticket</h3>
+            <p>Get personalized support from our team</p>
+          </div>
+          <svg class="contact-card__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Ticket Form Section -->
+      <div class="ticket-section" id="ticketSection" style="display: none;">
+        <!-- Gate: Not Logged In -->
+        <div class="ticket-gate" id="ticketGateLogin">
+          <div class="ticket-gate__card">
+            <div class="ticket-gate__illustration">
+              <div class="ticket-gate__icon-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </div>
+            </div>
+            <h3 class="ticket-gate__title">Sign in to continue</h3>
+            <p class="ticket-gate__text">You need to be signed in to submit a support ticket.</p>
+            <button class="btn btn--primary btn--lg" data-action="open-login">Sign In</button>
+          </div>
+        </div>
+
+        <!-- Gate: Discord Required -->
+        <div class="ticket-gate ticket-gate--hidden" id="ticketGateDiscord">
+          <div class="ticket-gate__card ticket-gate__card--discord">
+            <div class="ticket-gate__illustration">
+              <div class="ticket-gate__icon-wrapper ticket-gate__icon-wrapper--discord">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286z"/>
+                </svg>
+              </div>
+            </div>
+            <h3 class="ticket-gate__title">Connect Discord</h3>
+            <p class="ticket-gate__text">Please connect your Discord account so our team can reach you.</p>
+            <button class="btn btn--discord btn--lg" id="connectDiscordBtn">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286z"/>
+              </svg>
+              Connect Discord
+            </button>
+          </div>
+        </div>
+
+        <!-- Ticket Form -->
+        <div class="ticket-form-wrapper ticket-gate--hidden" id="ticketForm">
+          <div class="ticket-form-card">
+            <div class="ticket-form__header">
+              <div class="ticket-form__user">
+                <div class="ticket-form__avatar" id="ticketUserAvatar">?</div>
+                <div class="ticket-form__user-info">
+                  <span class="ticket-form__name" id="ticketUserName">User</span>
+                  <span class="ticket-form__discord" id="ticketUserDiscord">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                      <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286z"/>
+                    </svg>
+                    <span>Discord Connected</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <form id="ticketFormEl">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="ticketCategory">Category</label>
+                  <select class="form-select" id="ticketCategory" required>
+                    <option value="">Select a category...</option>
+                    <option value="technical">Technical Issue</option>
+                    <option value="account">Account Problem</option>
+                    <option value="billing">Billing Question</option>
+                    <option value="feature">Feature Request</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="ticketPriority">Priority</label>
+                  <select class="form-select" id="ticketPriority" required>
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="ticketSubject">Subject</label>
+                <input type="text" class="form-input" id="ticketSubject" placeholder="Brief description of your issue" required maxlength="100">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="ticketMessage">
+                  Message
+                  <span class="form-label__hint">(<span id="charCount">0</span>/1000)</span>
+                </label>
+                <textarea class="form-textarea" id="ticketMessage" placeholder="Describe your issue in detail..." required minlength="20" maxlength="1000" rows="6"></textarea>
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn--primary btn--lg" id="submitTicketBtn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                    <line x1="22" y1="2" x2="11" y2="13"/>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                  </svg>
+                  Submit Ticket
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Success State -->
+        <div class="ticket-success ticket-gate--hidden" id="ticketSuccess">
+          <div class="ticket-success__card">
+            <div class="ticket-success__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9 12l2 2 4-4"/>
+              </svg>
+            </div>
+            <h3 class="ticket-success__title">Ticket Submitted!</h3>
+            <p class="ticket-success__text">We've received your support ticket and will respond via Discord within 24-48 hours.</p>
+            <button class="btn btn--outline" id="newTicketBtn">Submit Another Ticket</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/api-fetch-simple.js"></script>
+  <script src="js/prefetch.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth-manager.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/help.js"></script>
+</body>
+</html>

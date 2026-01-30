@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" class="app-shell">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Companies - PrismMTR Dashboard</title>
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Companies - PrismMTR Dashboard">
+  <meta property="og:description" content="Manage your companies and collaborations">
+  <meta property="og:image" content="assets/img/PrismMTRlogo-optimized.png">
+
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+
+  <script>
+    (function() {
+      try {
+        var darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (darkMode) {
+          document.documentElement.classList.add('dark-mode');
+          document.documentElement.style.colorScheme = 'dark';
+        }
+      } catch(e) {}
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/app-shell.css">
+</head>
+<body data-page="dashboard" data-section="companies">
+  <canvas id="starCanvas"></canvas>
+
+  <!-- Sidebar Overlay (Mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Dashboard Layout -->
+  <div class="dashboard-layout" id="mainContent">
+
+    <!-- Sidebar Component -->
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+      <!-- Brand -->
+      <a href="index.html" class="sidebar-brand">
+        <img src="assets/img/PrismMTRlogo-optimized.png" alt="PrismMTR" class="sidebar-brand__logo">
+        <span class="sidebar-brand__text">PrismMTR</span>
+      </a>
+
+      <!-- User Info -->
+      <div class="sidebar-user">
+        <div class="sidebar-user__avatar" id="sidebarUserAvatar">?</div>
+        <div class="sidebar-user__info">
+          <div class="sidebar-user__name" id="sidebarUserName">User</div>
+          <div class="sidebar-user__role" id="sidebarUserRole">Member</div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav__section">
+          <span class="sidebar-nav__label">Overview</span>
+          <a href="dashboard.html" class="sidebar-nav__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            <span>Home</span>
+          </a>
+        </div>
+
+        <div class="sidebar-nav__section">
+          <span class="sidebar-nav__label">Content</span>
+          <a href="dashboard-companies.html" class="sidebar-nav__item active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 21h18"/>
+              <path d="M5 21V7l8-4v18"/>
+              <path d="M19 21V11l-6-4"/>
+            </svg>
+            <span>Companies</span>
+          </a>
+          <a href="dashboard-projects.html" class="sidebar-nav__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span>Projects</span>
+          </a>
+          <a href="dashboard-posts.html" class="sidebar-nav__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <span>Posts</span>
+          </a>
+        </div>
+
+        <div class="sidebar-nav__section">
+          <span class="sidebar-nav__label">Account</span>
+          <a href="dashboard.html?section=settings" class="sidebar-nav__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+            <span>Settings</span>
+          </a>
+        </div>
+
+        <!-- Admin Section -->
+        <div class="sidebar-nav__section sidebar-nav__section--admin" id="adminSection" style="display: none;">
+          <span class="sidebar-nav__label">Administration</span>
+          <a href="dashboard-admin.html" class="sidebar-nav__item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span>Admin Panel</span>
+          </a>
+        </div>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <button class="sidebar-footer__btn" data-action="sidebar-logout">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-main">
+      <div class="section-header">
+        <div class="section-header__text">
+          <h1 class="section-header__title">Companies</h1>
+          <p class="section-header__subtitle">Manage your companies and collaborations</p>
+        </div>
+        <button class="btn btn--primary" id="createCompanyBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Create Company
+        </button>
+      </div>
+
+      <!-- Companies Grid -->
+      <div class="companies-container">
+        <!-- Loading State -->
+        <div class="companies-loading" id="companiesLoading">
+          <div class="spinner spinner--lg"></div>
+          <p>Loading companies...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div class="companies-empty" id="companiesEmpty" style="display: none;">
+          <div class="empty-state">
+            <div class="empty-state__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 21h18"/>
+                <path d="M5 21V7l8-4v18"/>
+                <path d="M19 21V11l-6-4"/>
+              </svg>
+            </div>
+            <h3 class="empty-state__title">No companies yet</h3>
+            <p class="empty-state__description">Create your first company to start managing projects and team members together.</p>
+            <button class="btn btn--primary" id="createCompanyEmptyBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+              Create Your First Company
+            </button>
+          </div>
+        </div>
+
+        <!-- Companies Grid -->
+        <div class="companies-grid" id="companiesGrid" style="display: none;"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Mobile Sidebar Toggle -->
+  <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Sidebar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+
+  <!-- Create Company Modal -->
+  <div class="modal" id="createCompanyModal">
+    <div class="modal__backdrop" data-action="close-company-modal"></div>
+    <div class="modal__container modal__container--md">
+      <button class="modal__close" data-action="close-company-modal" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="modal__form">
+        <div class="modal__header">
+          <h2 class="modal__title">Create Company</h2>
+          <p class="modal__subtitle">Start a new company to collaborate with others</p>
+        </div>
+
+        <form id="createCompanyForm">
+          <div class="form-group">
+            <label class="form-label" for="companyName">Company Name *</label>
+            <input type="text" class="form-input" id="companyName" placeholder="Enter company name" required maxlength="50">
+            <span class="form-hint">Max 50 characters</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="companyDescription">Description</label>
+            <textarea class="form-textarea" id="companyDescription" placeholder="Describe your company..." rows="3" maxlength="500"></textarea>
+            <span class="form-hint">Max 500 characters</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Category *</label>
+            <div class="category-select" id="companyCategorySelect">
+              <label class="category-chip">
+                <input type="checkbox" name="companyCategory" value="metro">
+                <span class="category-chip__label">Metro / Transit</span>
+              </label>
+              <label class="category-chip">
+                <input type="checkbox" name="companyCategory" value="rail">
+                <span class="category-chip__label">Railway</span>
+              </label>
+              <label class="category-chip">
+                <input type="checkbox" name="companyCategory" value="city">
+                <span class="category-chip__label">City Building</span>
+              </label>
+              <label class="category-chip">
+                <input type="checkbox" name="companyCategory" value="infrastructure">
+                <span class="category-chip__label">Infrastructure</span>
+              </label>
+              <label class="category-chip">
+                <input type="checkbox" name="companyCategory" value="creative">
+                <span class="category-chip__label">Creative / Other</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Company Logo</label>
+            <div class="logo-upload" id="companyLogoUpload">
+              <div class="logo-upload__preview" id="companyLogoPreview">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M3 21h18"/>
+                  <path d="M5 21V7l8-4v18"/>
+                  <path d="M19 21V11l-6-4"/>
+                </svg>
+              </div>
+              <div class="logo-upload__info">
+                <p class="logo-upload__title">Upload Logo</p>
+                <p class="logo-upload__hint">PNG, JPG up to 2MB</p>
+                <button type="button" class="btn btn--sm btn--outline" id="uploadLogoBtn">Choose File</button>
+              </div>
+              <input type="file" id="companyLogoInput" accept="image/png,image/jpeg,image/webp" hidden>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn--ghost" data-action="close-company-modal">Cancel</button>
+            <button type="submit" class="btn btn--primary" id="submitCompanyBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              Create Company
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Company Details Modal -->
+  <div class="modal" id="companyDetailsModal">
+    <div class="modal__backdrop" data-action="close-details-modal"></div>
+    <div class="modal__container modal__container--lg">
+      <button class="modal__close" data-action="close-details-modal" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="company-details" id="companyDetailsContent">
+        <!-- Content will be loaded dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Manage Members Modal -->
+  <div class="modal" id="manageMembersModal">
+    <div class="modal__backdrop" data-action="close-members-modal"></div>
+    <div class="modal__container modal__container--md">
+      <button class="modal__close" data-action="close-members-modal" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="modal__form">
+        <div class="modal__header">
+          <h2 class="modal__title">Manage Members</h2>
+          <p class="modal__subtitle" id="manageMembersCompanyName">Company Name</p>
+        </div>
+
+        <!-- Add Member -->
+        <div class="add-member-section">
+          <h3 class="section-subtitle">Add Member</h3>
+          <div class="add-member-form">
+            <div class="search-box search-box--full">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35"/>
+              </svg>
+              <input type="text" class="search-box__input" id="memberSearchInput" placeholder="Search users by nickname...">
+            </div>
+            <div class="member-search-results" id="memberSearchResults"></div>
+          </div>
+        </div>
+
+        <!-- Current Members -->
+        <div class="current-members-section">
+          <h3 class="section-subtitle">Current Members</h3>
+          <div class="members-list" id="currentMembersList">
+            <!-- Members will be loaded dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/api-fetch-simple.js"></script>
+  <script src="js/prefetch.js"></script>
+  <script src="js/header-metrics.js"></script>
+  <script src="js/supabase.js"></script>
+  <script src="js/auth-manager.js"></script>
+  <script src="js/guards-new.js" data-require-auth="true"></script>
+  <script src="js/components.js"></script>
+  <script src="js/dashboard-companies.js"></script>
+</body>
+</html>

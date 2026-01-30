@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Button Test</title>
+  <style>
+    body { font-family: Arial; padding: 50px; background: #f0f0f0; }
+    button { padding: 20px 40px; font-size: 18px; cursor: pointer; margin: 10px; }
+    .result { margin-top: 20px; padding: 20px; background: white; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Button Click Test</h1>
+  
+  <button id="testBtn1" onclick="log('Button 1 clicked via onclick!')">Test Button 1 (onclick)</button>
+  <button id="testBtn2">Test Button 2 (addEventListener)</button>
+  <button id="testBtn3">Test Button 3 (check overlay)</button>
+  
+  <div class="result" id="result">Click any button...</div>
+  
+  <script>
+    function log(msg) {
+      document.getElementById('result').innerHTML += '<br>' + msg;
+      console.log(msg);
+    }
+    
+    document.getElementById('testBtn2').addEventListener('click', function() {
+      log('Button 2 clicked via addEventListener!');
+    });
+    
+    document.getElementById('testBtn3').addEventListener('click', function() {
+      // Check for overlapping elements
+      const rect = this.getBoundingClientRect();
+      const x = rect.left + rect.width/2;
+      const y = rect.top + rect.height/2;
+      const elements = document.elementsFromPoint(x, y);
+      log('Elements at button center: ' + elements.map(e => e.tagName + (e.id ? '#'+e.id : '') + (e.className ? '.'+e.className.split(' ').join('.') : '')).join(' → '));
+    });
+    
+    log('Page loaded. Scripts working!');
+  </script>
+</body>
+</html>
